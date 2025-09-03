@@ -13,8 +13,8 @@
     "background_color":"#0d0f14",
     "theme_color":"#0d0f14",
     "icons":[
-      {"src":"app-logo.png","sizes":"512x512","type":"image/png"},
-      {"src":"app-logo.png","sizes":"192x192","type":"image/png"}
+      {"src":"./app-logo.png","sizes":"512x512","type":"image/png"},
+      {"src":"./app-logo.png","sizes":"192x192","type":"image/png"}
     ]
   }' />
     <script src="https://cdn.tailwindcss.com"></script>
@@ -28,7 +28,7 @@
             --panel: #11141b;
             --panel-2: #0f1218;
             --muted: #a0a7b4;
-            --brand: #1ea7fd;
+            --brand: #fcd535; /* Binance Yellow */
             --accent: #22c55e;
             --danger: #ef4444;
         }
@@ -47,6 +47,7 @@
         }
         .btn-primary {
             background: var(--brand);
+            color: var(--bg);
         }
         .btn-primary:active {
             transform: translateY(1px);
@@ -78,6 +79,15 @@
             color: #999;
             border-radius: 8px;
             font-size: 10px;
+        }
+        .footer-btn {
+            @apply flex flex-col items-center justify-center p-2 text-[10px];
+        }
+        .footer-btn svg {
+            @apply w-5 h-5 mb-1;
+        }
+        .footer-btn.active {
+            color: var(--brand);
         }
     </style>
 </head>
@@ -123,9 +133,9 @@
 
 <header class="h-16 flex items-center justify-between px-4 border-b border-white/5 bg-[var(--panel)]">
     <div class="flex items-center gap-3">
-        <img alt="logo" class="w-8 h-8" src="app-logo.png" />
+        <img alt="logo" class="w-8 h-8" src="./app-logo.png" />
         <div class="text-sm leading-tight">
-            <div class="font-bold">Blockchain Auto-Trading Bot</div>
+            <div class="font-bold">Blockchain Bot</div>
             <div id="netTag" class="text-[11px] text-[var(--muted)]">Disconnected</div>
         </div>
     </div>
@@ -138,14 +148,22 @@
 <main class="flex-1">
     <section id="landing" class="page px-4 py-4 space-y-5">
         <div class="rounded-2xl p-5 glass">
-            <img alt="Automated Trading Bots" class="w-full h-auto mb-4 rounded-lg" src="app-logo.png" />
-            <h1 class="text-2xl font-bold">Welcome</h1>
-            <p class="text-[var(--muted)]">Live market data, wallet connect demo, and charts — packaged as an installable PWA.</p>
-            <div class="mt-4 grid grid-cols-2 gap-2">
+            <img alt="Automated Trading Bots" class="w-full h-auto mb-4 rounded-lg" src="./app-logo.png" />
+          <h1 class="text-3xl font-bold mb-2">🚀 Welcome to the Future of Trading</h1>
+         <p class="text-base font-medium text-blue-600 mb-6">✨ Powered by Blockchain Technology</p>
+
+        <p class="text-lg text-[var(--muted)]">
+           Smarter. Faster. Safer. <br />
+            Our <strong>Blockchain Auto-Trading Bot</strong> is built to give you an edge in the fast-moving crypto market. 
+             Designed with <strong>advanced algorithms, real-time data analysis, and blockchain-level security</strong>, 
+               the bot works for you 24/7 — so your money never sleeps.
+                </p><div class="mt-4 grid grid-cols-2 gap-2">
                 <button id="connectWalletBtn" class="btn-primary rounded-xl">Connect Wallet</button>
                 <button id="getAppBtn" class="btn-ghost rounded-xl">GET APP</button>
             </div>
-            <p class="safe-note mt-2">This demo is for educational UI only. Do not send funds.</p>
+            <p class="safe-note mt-2 text-sm text-green-600 font-medium">
+           ✅ Secure & Transparent: Powered by blockchain technology to ensure safety, trust, and real results.
+           </p>
         </div>
         <div class="rounded-2xl p-5 bg-[var(--panel)]">
             <div class="flex items-center justify-between mb-3">
@@ -161,7 +179,7 @@
                     <div class="text-2xl font-bold text-[var(--accent)]">1.</div>
                     <div>
                         <h3 class="text-lg font-semibold">Connect Your Wallet</h3>
-                        <p class="text-sm text-[var(--muted)]">Securely link your existing crypto wallet using WalletConnect or a browser extension like MetaMask. Your private keys never leave your wallet.</p>
+                        <p class="text-sm text-[var(--muted)]">Securely link your existing crypto wallet using WalletConnect or a browser extensions.</p>
                     </div>
                 </div>
                 <div class="flex items-start gap-4">
@@ -454,11 +472,42 @@
 
 </main>
 <nav class="h-16 border-t border-white/5 bg-[var(--panel)] grid grid-cols-5 text-center text-xs">
-    <button data-tab="home" class="tab py-3 tab-active">Home</button>
-    <button data-tab="discover" class="tab py-3">Discover</button>
-    <button data-tab="trade" class="tab py-3">Trade</button>
-    <button data-tab="memes" class="tab py-3">Meme</button>
-    <button data-tab="settings" class="tab py-3">Settings</button>
+    <button data-tab="home" class="footer-btn tab py-3 tab-active" onclick="window.showPage('home')">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M11.996 1.993a1 1 0 0 1 .998.998v3.42a1 1 0 0 1-1.996 0V2.991a1 1 0 0 1 .998-.998zM5.926 4.606a1 1 0 0 1 1.414 0L9.125 6.39a1 1 0 1 1-1.414 1.414L5.926 6.02a1 1 0 0 1 0-1.414zM2.991 11.996a1 1 0 0 1 .998-.998h3.42a1 1 0 0 1 0 1.996h-3.42a1 1 0 0 1-.998-.998zM5.926 19.386a1 1 0 0 1 1.414 0l1.79-1.79a1 1 0 1 1 1.414 1.414l-1.79 1.79a1 1 0 0 1-1.414 0zM11.996 21.002a1 1 0 0 1-.998-.998v-3.42a1 1 0 0 1 1.996 0v3.42a1 1 0 0 1-.998.998zM19.386 18.067a1 1 0 0 1 0-1.414l1.79-1.79a1 1 0 0 1 1.414 1.414l-1.79 1.79a1 1 0 0 1-1.414 0zM21.002 11.996a1 1 0 0 1-.998.998h-3.42a1 1 0 0 1 0-1.996h3.42a1 1 0 0 1 .998.998zM18.067 5.926a1 1 0 0 1-1.414 0l-1.79 1.79a1 1 0 0 1 1.414 1.414l1.79-1.79a1 1 0 0 1 0-1.414z"/>
+            <path fill-rule="evenodd" d="M12 18.5a6.5 6.5 0 1 0 0-13 6.5 6.5 0 0 0 0 13zM12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16z" clip-rule="evenodd"/>
+        </svg>
+        <span>Home</span>
+    </button>
+    <button data-tab="discover" class="footer-btn tab py-3" onclick="window.showPage('discover')">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 3a9 9 0 0 0-9 9c0 1.76.5 3.4 1.38 4.8.88-1.4 1.38-3.04 1.38-4.8a6.5 6.5 0 1 1 13 0c0 1.76.5 3.4 1.38 4.8.88-1.4 1.38-3.04 1.38-4.8a9 9 0 0 0-9-9z"/>
+            <path fill-rule="evenodd" d="M12 18.5a6.5 6.5 0 1 0 0-13 6.5 6.5 0 0 0 0 13zM12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16z" clip-rule="evenodd"/>
+            <path d="M20.69 16.5A9.95 9.95 0 0 1 12 22a9.95 9.95 0 0 1-8.69-5.5.99.99 0 0 1 .38-.28 1 1 0 0 1 1.2.22A9 9 0 0 0 12 20a9 9 0 0 0 7.11-3.56 1 1 0 0 1 1.2-.22.99.99 0 0 1 .38.28z"/>
+        </svg>
+        <span>Discover</span>
+    </button>
+    <button data-tab="trade" class="footer-btn tab py-3" onclick="window.showPage('trade')">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            <path fill-rule="evenodd" d="M4.293 2.293a1 1 0 0 1 1.414 0l6 6a1 1 0 0 1-1.414 1.414l-6-6a1 1 0 0 1 0-1.414zM16 11.5a1 1 0 1 0 0 2h3a1 1 0 1 0 0-2h-3zM14.5 16a1 1 0 1 0-2 0v3a1 1 0 1 0 2 0v-3zM2.5 16a1 1 0 1 0-2 0v3a1 1 0 1 0 2 0v-3z" clip-rule="evenodd"/>
+            <path d="M15 15a1 1 0 0 1 1-1h6a1 1 0 1 1 0 2h-6a1 1 0 0 1-1-1zM9 15a1 1 0 0 1 1-1h4a1 1 0 1 1 0 2h-4a1 1 0 0 1-1-1zM11 11a1 1 0 0 1 1-1h6a1 1 0 1 1 0 2h-6a1 1 0 0 1-1-1zM5 11a1 1 0 0 1 1-1h4a1 1 0 1 1 0 2h-4a1 1 0 0 1-1-1zM18 7a1 1 0 0 1 1-1h4a1 1 0 1 1 0 2h-4a1 1 0 0 1-1-1zM12 7a1 1 0 0 1 1-1h4a1 1 0 1 1 0 2h-4a1 1 0 0 1-1-1z"/>
+            <path d="M2.293 2.293a1 1 0 0 1 1.414 0l6 6a1 1 0 0 1-1.414 1.414l-6-6a1 1 0 0 1 0-1.414z"/>
+        </svg>
+        <span>Trade</span>
+    </button>
+    <button data-tab="memes" class="footer-btn tab py-3" onclick="window.showPage('memes')">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zM10.5 8a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zM16.5 8a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zM12 17.5a4.5 4.5 0 0 1-4.5-4.5h9a4.5 4.5 0 0 1-4.5 4.5z"/>
+        </svg>
+        <span>Meme</span>
+    </button>
+    <button data-tab="settings" class="footer-btn tab py-3" onclick="window.showPage('settings')">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M19.16 1.48L17.75 0 14.33 3.42 15.75 4.84A1 1 0 0 1 15.75 6.25L14.33 7.67A1 1 0 0 1 13 7.67L11.58 6.25A1 1 0 0 1 11.58 4.84L13 3.42 9.58 0 8.17 1.42A1 1 0 0 1 8.17 2.83L9.58 4.25A1 1 0 0 1 9.58 5.67L8.17 7.08A1 1 0 0 1 6.75 7.08L5.33 5.67A1 1 0 0 1 5.33 4.25L6.75 2.83A1 1 0 0 1 6.75 1.42L5.33 0 1.92 3.42 3.33 4.84A1 1 0 0 1 3.33 6.25L1.92 7.67A1 1 0 0 1 1.92 9.08L3.33 10.5A1 1 0 0 1 3.33 11.92L1.92 13.33A1 1 0 0 1 1.92 14.75L3.33 16.17A1 1 0 0 1 3.33 17.58L1.92 19 5.33 22.42 6.75 21A1 1 0 0 1 6.75 19.58L8.17 18.17A1 1 0 0 1 8.17 16.75L9.58 15.33A1 1 0 0 1 9.58 13.92L8.17 12.5A1 1 0 0 1 8.17 11.08L9.58 9.67A1 1 0 0 1 9.58 8.25L8.17 6.83A1 1 0 0 1 6.75 6.83L5.33 8.25A1 1 0 0 1 5.33 9.67L6.75 11.08A1 1 0 0 1 6.75 12.5L5.33 13.92A1 1 0 0 1 5.33 15.33L6.75 16.75A1 1 0 0 1 6.75 18.17L8.17 19.58A1 1 0 0 1 8.17 21L9.58 22.42 13 19 14.42 20.42A1 1 0 0 1 14.42 21.83L13 23.25A1 1 0 0 1 13 24.67L14.42 26.08A1 1 0 0 1 14.42 27.5L13 28.92A1 1 0 0 1 13 30.33L14.42 31.75A1 1 0 0 1 15.83 31.75L17.25 30.33A1 1 0 0 1 17.25 28.92L15.83 27.5A1 1 0 0 1 15.83 26.08L17.25 24.67A1 1 0 0 1 18.67 24.67L20.08 26.08A1 1 0 0 1 20.08 27.5L18.67 28.92A1 1 0 0 1 18.67 30.33L20.08 31.75A1 1 0 0 1 21.5 31.75L22.92 30.33A1 1 0 0 1 22.92 28.92L21.5 27.5A1 1 0 0 1 21.5 26.08L22.92 24.67A1 1 0 0 1 22.92 23.25L21.5 21.83A1 1 0 0 1 21.5 20.42L22.92 19A1 1 0 0 1 22.92 17.58L21.5 16.17A1 1 0 0 1 21.5 14.75L22.92 13.33A1 1 0 0 1 22.92 11.92L21.5 10.5A1 1 0 0 1 21.5 9.08L22.92 7.67A1 1 0 0 1 22.92 6.25L21.5 4.84A1 1 0 0 1 21.5 3.42L22.92 1.92A1 1 0 0 1 22.92 0.5L21.5 0Z"/>
+            <path d="M12 12a4 4 0 1 0 0 8 4 4 0 0 0 0-8z"/>
+        </svg>
+        <span>Settings</span>
+    </button>
 </nav>
 
 <button id="installBtn" class="fixed bottom-20 right-4 btn-primary rounded-full px-5 py-3 hidden">Install App</button>
@@ -488,6 +537,18 @@
 </div>
 
 <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./service-worker.js')
+          .then(registration => {
+            console.log('Service Worker registered with scope:', registration.scope);
+          })
+          .catch(error => {
+            console.error('Service Worker registration failed:', error);
+          });
+      });
+    }
+
     let mainWalletBalance = 10000.00; // Starting balance
     let tradeWalletBalance = 0.00;
     let tradeEarnings = 0.00;
@@ -806,7 +867,7 @@
                     <div class="text-xs text-[var(--muted)]">${c.symbol.toUpperCase()}</div>
                 </div>
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[var(--muted)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
                 </svg>
             </button>
         `).join('');
