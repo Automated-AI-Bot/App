@@ -13,11 +13,10 @@
     "background_color":"#0d0f14",
     "theme_color":"#0d0f14",
     "icons":[
-      {"src":"./favicon.ico","sizes":"64x64 32x32 24x24 16x16","type":"image/x-icon"},
-      {"src":"app-logo.png","sizes":"512x512","type":"image/png"},
-      {"src":"app-logo.png","sizes":"192x192","type":"image/png"}
-        ]
-      }' />
+      {"src":"./app-logo.png","sizes":"192x192","type":"image/png"},
+      {"src":"./app-logo.png","sizes":"512x512","type":"image/png"}
+    ]
+  }' />
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://s3.tradingview.com/tv.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
@@ -137,12 +136,23 @@
   </div>
 </div>
 
+<div id="installPromptModal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 hidden">
+    <div class="bg-[var(--panel)] p-6 rounded-2xl shadow-xl max-w-sm mx-auto">
+        <h3 class="text-xl font-bold mb-2">Install App</h3>
+        <p class="text-[var(--muted)] mb-4">Install Blockchain Auto-Trading Bot to your mobile device for a better experience.</p>
+        <div class="flex justify-between gap-4">
+            <button id="installNowBtn" class="w-full btn-primary rounded-xl">Install Now</button>
+            <button id="cancelInstallBtn" class="w-full btn-ghost rounded-xl">Cancel</button>
+        </div>
+    </div>
+</div>
+
 <header class="h-16 flex items-center justify-between px-4 border-b border-white/5 bg-[var(--panel)]">
     <div class="flex items-center gap-3">
-        <img alt="logo" class="w-8 h-8" src="app-logo.png"class="w-full h-auto rounded-lg" src="https://via.placeholder.com/600x400/1ea7fd/fff?text=Blockchain%20Auto-Trading%20Bot%20Logo" />
-         <div class="text-sm leading-tight">
+        <img alt="logo" class="w-8 h-8" src="app-logo.png" />
+        <div class="text-sm leading-tight">
             <div class="font-bold">Blockchain</div>
-            <div id="netTag" class="text-[11px] text-[var(--muted)]">Not Connected</div>
+            <div id="netTag" class="text-[11px] text-[var(--muted)]">Disconnected</div>
         </div>
     </div>
     <div class="flex items-center gap-2">
@@ -171,9 +181,8 @@
 <main class="flex-1 overflow-auto">
     <section id="landing" class="page px-4 py-4 space-y-5">
         <div class="rounded-2xl p-5 glass">
-            <div class="flex items-center space-x-2 mb-4">
-              <img alt="logo" class="w-8 h-8" src="app-logo.png" />
-                <h1 class="text-2xl font-bold">Welcome</h1>
+            <img alt="Blockchain Auto-Trading Bot" class="w-full h-auto mb-4 rounded-lg" src="app-logo.png" />
+            <h1 class="text-2xl font-bold">Welcome</h1>
             <p class="text-[var(--muted)]">Live market data, wallet connect demo, and charts — packaged as an installable PWA.</p>
             <div class="mt-4 grid grid-cols-2 gap-2">
                 <button id="connectWalletBtn" class="btn-primary rounded-xl">
@@ -822,6 +831,10 @@
     // PWA Install Logic
     let deferredPrompt = null;
     const installBtn = document.getElementById('installBtn');
+    const installPromptModal = document.getElementById('installPromptModal');
+    const installNowBtn = document.getElementById('installNowBtn');
+    const cancelInstallBtn = document.getElementById('cancelInstallBtn');
+
     window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
         deferredPrompt = e;
@@ -841,10 +854,25 @@
 
     document.getElementById('getAppBtn').addEventListener('click', () => {
         if (deferredPrompt) {
-            installBtn.click();
+            installPromptModal.classList.remove('hidden');
         } else {
             showModal('Install App', 'Use your browser menu to "Add to Home Screen" or install.');
         }
+    });
+
+    installNowBtn.addEventListener('click', async () => {
+        installPromptModal.classList.add('hidden');
+        if (deferredPrompt) {
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            console.log(`User response to the install prompt: ${outcome}`);
+            deferredPrompt = null;
+        }
+    });
+
+    cancelInstallBtn.addEventListener('click', () => {
+        installPromptModal.classList.add('hidden');
+        showPage('landing');
     });
 
     // TradingView widgets
