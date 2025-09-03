@@ -2,6 +2,7 @@ const CACHE_NAME = 'blockchain-bot-cache-v1';
 const urlsToCache = [
   './',
   './index.html',
+    './wallet-connector.html',
   './app-logo.png',
   'https://cdn.tailwindcss.com',
   'https://s3.tradingview.com/tv.js',
