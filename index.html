@@ -28,7 +28,7 @@
             --panel: #11141b;
             --panel-2: #0f1218;
             --muted: #a0a7b4;
-            --brand: #fcd535; /* Binance Yellow */
+            --brand: #1ea7fd;
             --accent: #22c55e;
             --danger: #ef4444;
         }
@@ -47,7 +47,6 @@
         }
         .btn-primary {
             background: var(--brand);
-            color: var(--bg);
         }
         .btn-primary:active {
             transform: translateY(1px);
@@ -79,15 +78,6 @@
             color: #999;
             border-radius: 8px;
             font-size: 10px;
-        }
-        .footer-btn {
-            @apply flex flex-col items-center justify-center p-2 text-[10px];
-        }
-        .footer-btn svg {
-            @apply w-5 h-5 mb-1;
-        }
-        .footer-btn.active {
-            color: var(--brand);
         }
     </style>
 </head>
@@ -207,7 +197,7 @@
                     <p class="text-sm text-[var(--muted)] mt-2">Yes, we use industry-standard secure connection methods like WalletConnect and MetaMask. Your private keys never leave your wallet.</p>
                 </details>
                 <details class="bg-[var(--panel)] p-4 rounded-xl">
-                    <summary class="font-semibold text-muted mt-2">Do you support real trading?</summary>
+                    <summary class="font-semibold text-white cursor-pointer">Do you support real trading?</summary>
                     <p class="text-sm text-[var(--muted)] mt-2">Currently, this platform provides a simulation environment for trading. It's perfect for practicing strategies without real financial risk. No real orders are placed and no real funds are used.</p>
                 </details>
             </div>
@@ -225,39 +215,13 @@
     </section>
 
     <section id="home" class="page px-4 py-4 hidden-page space-y-4">
-        <header class="flex items-center justify-between">
-            <div class="flex items-center gap-2">
-                <button onclick="window.toggleSearch(true)">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-white">
-                        <path d="M10.5 21a10.5 10.5 0 1 0 0-21 10.5 10.5 0 0 0 0 21ZM10.5 3a7.5 7.5 0 1 1 0 15 7.5 7.5 0 0 1 0-15Z" />
-                        <path d="M21.58 20.32a.75.75 0 0 1-1.06 1.06l-3.26-3.25a.75.75 0 0 1 1.06-1.06l3.26 3.25Z" />
-                    </svg>
-                </button>
-                <h1 class="text-xl font-bold">Portfolio</h1>
-            </div>
-            <div class="flex items-center gap-2">
-                <button onclick="window.showModal('Notifications', 'No new notifications.')">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-white">
-                        <path fill-rule="evenodd" d="M5.502 2.193a.75.75 0 0 0-1.009 1.129L5.32 4.471l-.105.088a5.5 5.5 0 0 0-1.63 7.844 5.502 5.502 0 0 0 7.844-1.63l.089-.104 1.15 1.15a.75.75 0 0 0 1.127-1.009l-1.15-1.15.105-.089a5.5 5.5 0 0 0 1.629-7.844 5.502 5.502 0 0 0-7.844-1.63L5.502 2.193Zm2.808 6.54a2.5 2.5 0 1 0 3.535-3.536 2.5 2.5 0 0 0-3.536 3.536Z" clip-rule="evenodd" />
-                        <path d="M10.998 12.502a.75.75 0 0 0-.999 1.128l-.11.096a.75.75 0 0 0-.095.998l1.15 1.15a.75.75 0 0 0 1.127-1.009l-1.15-1.15a.75.75 0 0 0-.998-.095l-.1-.088-1.009-1.128a.75.75 0 0 0-1.128.999l1.15 1.15a.75.75 0 0 0 1.127-1.009l-.1-.088.095-.112a.75.75 0 0 0 .999-.096l1.15-1.15a.75.75 0 0 0-1.009-1.128Z" />
-                        <path fill-rule="evenodd" d="M14.5 17.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z" clip-rule="evenodd" />
-                    </svg>
-                </button>
-                <button onclick="window.showModal('Transaction History', 'No recent transactions.')">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-white">
-                        <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 6a.75.75 0 0 0-1.5 0v6.25l-2.293-2.293a.75.75 0 0 0-1.06 1.06l3 3a.75.75 0 0 0 1.06 0l3-3a.75.75 0 1 0-1.06-1.06L12.75 12.25V6Z" clip-rule="evenodd" />
-                    </svg>
-                </button>
-            </div>
-        </header>
-
         <div class="rounded-2xl p-5 bg-[var(--panel)]">
             <div class="text-xs text-[var(--muted)]">Total Portfolio</div>
             <div id="totalBalance" class="text-3xl font-bold">$0.00</div>
             <div class="mt-4 flex gap-2">
-                <button onclick="window.showPage('deposit'); window.startDepositFlow()" class="btn-primary rounded-xl flex-1 text-sm">Deposit</button>
-                <button onclick="window.showModal('Coming Soon', 'Swap is not enabled in this demo.')" class="btn-ghost rounded-xl flex-1 text-sm">Swap</button>
-                <button onclick="window.showPage('send')" class="btn-ghost rounded-xl flex-1 text-sm">Send</button>
+                <button onclick="window.showPage('deposit'); window.startDepositFlow()" class="btn-primary rounded-xl">Deposit</button>
+                <button onclick="window.showModal('Coming Soon', 'Swap is not enabled in this demo.')" class="btn-ghost rounded-xl">Swap</button>
+                <button onclick="window.showPage('send')" class="btn-ghost rounded-xl">Send</button>
             </div>
         </div>
         
@@ -489,44 +453,13 @@
     </section>
 
 </main>
-
-    <nav class="h-14 border-t border-white/5 bg-[var(--panel)] grid grid-cols-5 text-center text-[10px]">
-    <button data-tab="home" class="footer-btn tab py-2 tab-active" onclick="window.showPage('home')">
-        <svg class="mx-auto h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M11.996 1.993a1 1 0 0 1 .998.998v3.42a1 1 0 0 1-1.996 0V2.991a1 1 0 0 1 .998-.998zM5.926 4.606a1 1 0 0 1 1.414 0L9.125 6.39a1 1 0 1 1-1.414 1.414L5.926 6.02a1 1 0 0 1 0-1.414zM2.991 11.996a1 1 0 0 1 .998-.998h3.42a1 1 0 0 1 0 1.996h-3.42a1 1 0 0 1-.998.998zM5.926 19.386a1 1 0 0 1 1.414 0l1.79-1.79a1 1 0 1 1 1.414 1.414l-1.79 1.79a1 1 0 0 1-1.414 0zM11.996 21.002a1 1 0 0 1-.998-.998v-3.42a1 1 0 0 1 1.996 0v3.42a1 1 0 0 1-.998.998zM19.386 18.067a1 1 0 0 1 0-1.414l1.79-1.79a1 1 0 1 1 1.414 1.414l-1.79 1.79a1 1 0 0 1-1.414 0zM21.002 11.996a1 1 0 0 1-.998.998h-3.42a1 1 0 0 1 0-1.996h3.42a1 1 0 0 1 .998.998zM18.067 5.926a1 1 0 0 1-1.414 0l-1.79 1.79a1 1 0 0 1 1.414 1.414l1.79-1.79a1 1 0 0 1 0-1.414z"/>
-            <path fill-rule="evenodd" d="M12 18.5a6.5 6.5 0 1 0 0-13 6.5 6.5 0 0 0 0 13zM12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16z" clip-rule="evenodd"/>
-        </svg>
-        <span>Home</span>
-    </button>
-    <button data-tab="discover" class="footer-btn tab py-2" onclick="window.showPage('discover')">
-        <svg class="mx-auto h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 3a9 9 0 0 0-9 9c0 1.76.5 3.4 1.38 4.8.88-1.4 1.38-3.04 1.38-4.8a6.5 6.5 0 1 1 13 0c0 1.76.5 3.4 1.38 4.8.88-1.4 1.38-3.04 1.38-4.8a9 9 0 0 0-9-9z"/>
-            <path fill-rule="evenodd" d="M12 18.5a6.5 6.5 0 1 0 0-13 6.5 6.5 0 0 0 0 13zM12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16z" clip-rule="evenodd"/>
-            <path d="M20.69 16.5A9.95 9.95 0 0 1 12 22a9.95 9.95 0 0 1-8.69-5.5.99.99 0 0 1 .38-.28 1 1 0 0 1 1.2.22A9 9 0 0 0 12 20a9 9 0 0 0 7.11-3.56 1 1 0 0 1 1.2-.22.99.99 0 0 1 .38.28z"/>
-        </svg>
-        <span>Discover</span>
-    </button>
-    <button data-tab="trade" class="footer-btn tab py-2" onclick="window.showPage('trade')">
-        <svg class="mx-auto h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-            <path fill-rule="evenodd" d="M4.293 2.293a1 1 0 0 1 1.414 0l6 6a1 1 0 0 1-1.414 1.414l-6-6a1 1 0 0 1 0-1.414zM16 11.5a1 1 0 1 0 0 2h3a1 1 0 1 0 0-2h-3zM14.5 16a1 1 0 1 0-2 0v3a1 1 0 1 0 2 0v-3zM2.5 16a1 1 0 1 0-2 0v3a1 1 0 1 0 2 0v-3z" clip-rule="evenodd"/>
-            <path d="M15 15a1 1 0 0 1 1-1h6a1 1 0 1 1 0 2h-6a1 1 0 0 1-1-1zM9 15a1 1 0 0 1 1-1h4a1 1 0 1 1 0 2h-4a1 1 0 0 1-1-1zM11 11a1 1 0 0 1 1-1h6a1 1 0 1 1 0 2h-6a1 1 0 0 1-1-1zM5 11a1 1 0 0 1 1-1h4a1 1 0 1 1 0 2h-4a1 1 0 0 1-1-1zM18 7a1 1 0 0 1 1-1h4a1 1 0 1 1 0 2h-4a1 1 0 0 1-1-1zM12 7a1 1 0 0 1 1-1h4a1 1 0 1 1 0 2h-4a1 1 0 0 1-1-1z"/>
-        </svg>
-        <span>Trade</span>
-    </button>
-    <button data-tab="memes" class="footer-btn tab py-2" onclick="window.showPage('memes')">
-        <svg class="mx-auto h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zM10.5 8a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zM16.5 8a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zM12 17.5a4.5 4.5 0 0 1-4.5-4.5h9a4.5 4.5 0 0 1-4.5 4.5z"/>
-        </svg>
-        <span>Meme</span>
-    </button>
-    <button data-tab="settings" class="footer-btn tab py-2" onclick="window.showPage('settings')">
-        <svg class="mx-auto h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M19.16 1.48L17.75 0 14.33 3.42 15.75 4.84A1 1 0 0 1 15.75 6.25L14.33 7.67A1 1 0 0 1 13 7.67L11.58 6.25A1 1 0 0 1 11.58 4.84L13 3.42 9.58 0 8.17 1.42A1 1 0 0 1 8.17 2.83L9.58 4.25A1 1 0 0 1 9.58 5.67L8.17 7.08A1 1 0 0 1 6.75 7.08L5.33 5.67A1 1 0 0 1 5.33 4.25L6.75 2.83A1 1 0 0 1 6.75 1.42L5.33 0 1.92 3.42 3.33 4.84A1 1 0 0 1 3.33 6.25L1.92 7.67A1 1 0 0 1 1.92 9.08L3.33 10.5A1 1 0 0 1 3.33 11.92L1.92 13.33A1 1 0 0 1 1.92 14.75L3.33 16.17A1 1 0 0 1 3.33 17.58L1.92 19 5.33 22.42 6.75 21A1 1 0 0 1 6.75 19.58L8.17 18.17A1 1 0 0 1 8.17 16.75L9.58 15.33A1 1 0 0 1 9.58 13.92L8.17 12.5A1 1 0 0 1 8.17 11.08L9.58 9.67A1 1 0 0 1 9.58 8.25L8.17 6.83A1 1 0 0 1 6.75 6.83L5.33 8.25A1 1 0 0 1 5.33 9.67L6.75 11.08A1 1 0 0 1 6.75 12.5L5.33 13.92A1 1 0 0 1 5.33 15.33L6.75 16.75A1 1 0 0 1 6.75 18.17L8.17 19.58A1 1 0 0 1 8.17 21L9.58 22.42 13 19 14.42 20.42A1 1 0 0 1 14.42 21.83L13 23.25A1 1 0 0 1 13 24.67L14.42 26.08A1 1 0 0 1 14.42 27.5L13 28.92A1 1 0 0 1 13 30.33L14.42 31.75A1 1 0 0 1 15.83 31.75L17.25 30.33A1 1 0 0 1 17.25 28.92L15.83 27.5A1 1 0 0 1 15.83 26.08L17.25 24.67A1 1 0 0 1 18.67 24.67L20.08 26.08A1 1 0 0 1 20.08 27.5L18.67 28.92A1 1 0 0 1 18.67 30.33L20.08 31.75A1 1 0 0 1 21.5 31.75L22.92 30.33A1 1 0 0 1 22.92 28.92L21.5 27.5A1 1 0 0 1 21.5 26.08L22.92 24.67A1 1 0 0 1 22.92 23.25L21.5 21.83A1 1 0 0 1 21.5 20.42L22.92 19A1 1 0 0 1 22.92 17.58L21.5 16.17A1 1 0 0 1 21.5 14.75L22.92 13.33A1 1 0 0 1 22.92 11.92L21.5 10.5A1 1 0 0 1 21.5 9.08L22.92 7.67A1 1 0 0 1 22.92 6.25L21.5 4.84A1 1 0 0 1 21.5 3.42L22.92 1.92A1 1 0 0 1 22.92 0.5L21.5 0Z"/>
-            <path d="M12 12a4 4 0 1 0 0 8 4 4 0 0 0 0-8z"/>
-        </svg>
-        <span>Settings</span>
-    </button>
-  </nav>
+<nav class="h-16 border-t border-white/5 bg-[var(--panel)] grid grid-cols-5 text-center text-xs">
+    <button data-tab="home" class="tab py-3 tab-active">Home</button>
+    <button data-tab="discover" class="tab py-3">Discover</button>
+    <button data-tab="trade" class="tab py-3">Trade</button>
+    <button data-tab="memes" class="tab py-3">Meme</button>
+    <button data-tab="settings" class="tab py-3">Settings</button>
+</nav>
 
 <button id="installBtn" class="fixed bottom-20 right-4 btn-primary rounded-full px-5 py-3 hidden">Install App</button>
 
@@ -555,31 +488,17 @@
 </div>
 
 <script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./service-worker.js')
-          .then(registration => {
-            console.log('Service Worker registered with scope:', registration.scope);
-          })
-          .catch(error => {
-            console.error('Service Worker registration failed:', error);
-          });
-      });
-    }
-
-    let mainWalletBalance = 10000.00; // Starting balance
+    let mainWalletBalance = 10000.00;
     let tradeWalletBalance = 0.00;
     let tradeEarnings = 0.00;
     let tradeInterval;
     let tradeDailyPercent = 13.95 / 100;
     
-    // Send / Withdraw Logic
-    const validCodes = ["483921","175064","902718","634285","217509","856430","490127","731694","562803","308417","941256","128374","675820","203519","487960","819432","356701","740528","612947","098135","573864","284691","160738","495260","837514","021693","658407","794135","320586","946172"];
+    const validCodes = ["483921", "175064", "902718", "634285", "217509", "856430", "490127", "731694", "562803", "308417", "941256", "128374", "675820", "203519", "487960", "819432", "356701", "740528", "612947", "098135", "573864", "284691", "160738", "495260", "837514", "021693", "658407", "794135", "320586", "946172"];
     let sendAttempts = 0;
     let sendSuspended = false;
     let currentWallet = null;
 
-    // A helper function to get an element by ID
     const get = (id) => document.getElementById(id);
 
     function showModal(title, message) {
@@ -604,13 +523,12 @@
             t.classList.toggle('tab-active', t.dataset.tab === id);
         });
 
-        // Conditionally render TradingView charts and fetch data
         if (id === 'home') {
             renderTV('tv_chart', 'BINANCE:BTCUSDT');
             loadMovers();
         }
         if (id === 'trade') {
-            renderTV('tradeChart', 'BINANCE:BTCUSDT'); // Default chart for trade page
+            renderTV('tradeChart', 'BINANCE:BTCUSDT');
             loadTradeAssets();
         }
         if (id === 'discover') loadDiscover();
@@ -624,10 +542,10 @@
 
     function updateWalletUI(address) {
         currentWallet = address;
-        const accountId = generateAccountId(); // Generate unique account ID
+        const accountId = generateAccountId();
         document.getElementById('netTag').textContent = `Connected`;
         document.getElementById('accountId').textContent = accountId;
-        document.getElementById('homeAccountId').textContent = accountId; // Display on homepage
+        document.getElementById('homeAccountId').textContent = accountId;
         document.getElementById('walletAddr').textContent = address;
         document.getElementById('userIdDisplay').textContent = accountId;
         updateHomeBalance();
@@ -647,7 +565,6 @@
         if (currentWallet) {
             get('accountWalletAddress').innerText = currentWallet;
             try {
-                // In a real app, this would fetch the actual balance
                 get('accountWalletBalance').innerText = '1.2345 ETH';
             } catch (error) {
                 console.error("Failed to get balance:", error);
@@ -675,7 +592,6 @@
         document.getElementById('searchSheet').classList.toggle('hidden', !open);
     }
 
-    // Export functions to global scope for inline onclick attributes
     window.showModal = showModal;
     window.hideModal = hideModal;
     window.showPage = showPage;
@@ -686,7 +602,6 @@
     window.toggleSearch = toggleSearch;
     window.updateAccountWalletInfo = updateAccountWalletInfo;
 
-    // PWA Install Logic
     let deferredPrompt = null;
     const installBtn = document.getElementById('installBtn');
     window.addEventListener('beforeinstallprompt', (e) => {
@@ -708,7 +623,6 @@
         else showModal('Install App', 'Use your browser menu to "Add to Home Screen" or install.');
     });
 
-    // TradingView widgets
     function renderTV(containerId, symbol) {
         if (!window.TradingView) {
             console.error("TradingView or container element is not available.");
@@ -728,7 +642,6 @@
         });
     }
 
-    // CoinGecko Data
     const cgHeaders = { 'accept': 'application/json' };
     async function loadMarket() {
         const list = document.getElementById('marketList');
@@ -827,7 +740,6 @@
         }
     }
 
-    // Search modal
     document.getElementById('searchOpen').addEventListener('click', () => window.toggleSearch(true));
     document.getElementById('searchInput').addEventListener('input', async (e) => {
         const q = e.target.value.trim();
@@ -847,7 +759,6 @@
         }
     });
 
-    // Deposit Logic
     const depositAddresses = {
         'btc': { network: 'Bitcoin (BTC)', address: 'bc1qv4fffwt8ux3k33n2dms5cdvuh6suc0gtfevxzu' },
         'eth': { network: 'Ethereum (ERC-20)', address: '0xB36EDa1ffC696FFba07D4Be5cd249FE5E0118130' },
@@ -886,7 +797,7 @@
                 </div>
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[var(--muted)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
-                </svg>
+                    </svg>
             </button>
         `).join('');
     }
@@ -919,7 +830,7 @@
     function renderNetworkList() {
         const networkList = document.getElementById('networkList');
         networkList.innerHTML = '';
-        const networks = ['btc', 'eth', 'bnb', 'trx']; // Example networks, expand as needed
+        const networks = ['btc', 'eth', 'bnb', 'trx'];
         networks.forEach(key => {
             const net = depositAddresses[key];
             if (net) {
@@ -944,7 +855,7 @@
         const net = depositAddresses[key];
         const addr = net.address;
         const qrContainer = document.getElementById('qrCodeContainer');
-        qrContainer.innerHTML = ''; // Clear previous QR
+        qrContainer.innerHTML = '';
         new QRCode(qrContainer, addr);
         document.getElementById('selectedNetworkInfo').textContent = net.network;
         document.getElementById('depositAddressText').textContent = addr;
@@ -970,7 +881,6 @@
         renderCoinList(filteredCoins);
     });
 
-    // Trade Logic
     async function loadTradeAssets() {
       const select = document.getElementById('tradeAssetSelect');
       select.innerHTML = '<option disabled selected>Loading...</option>';
@@ -1005,7 +915,6 @@
             return;
         }
 
-        // Deduct from Main Wallet, add to Trade Account
         mainWalletBalance -= investment;
         tradeWalletBalance += investment;
         document.getElementById('tradeBalance').innerText = '$' + tradeWalletBalance.toFixed(2);
@@ -1013,10 +922,8 @@
 
         showModal('Trade Started', `Trade started for ${assetSymbol} for ${months} month(s)`);
 
-        // Update chart to selected asset
         renderTV('tradeChart', `BINANCE:${assetSymbol}USDT`);
 
-        // Start daily returns simulation
         clearInterval(tradeInterval);
         let days = months * 30;
         let day = 0;
@@ -1033,12 +940,11 @@
             document.getElementById('tradeBalance').innerText = '$' + tradeWalletBalance.toFixed(2);
             document.getElementById('tradeEarnings').innerText = '$' + tradeEarnings.toFixed(2);
             day++;
-        }, 1000); // 1 second = 1 day simulation
+        }, 1000);
     }
 
     document.getElementById('startTradeBtn').addEventListener('click', startTrade);
     
-    // Send / Withdraw Logic
     get('sendConfirmBtn').onclick = () => {
       if (sendSuspended) {
         showModal('Withdrawal Suspended', 'Withdrawals are suspended for 48 hours due to too many invalid attempts.');
@@ -1075,7 +981,7 @@
         mainWalletBalance -= amount + 0.19;
         updateHomeBalance();
 
-        let seconds = 24 * 60 * 60; // 24 hours simulation
+        let seconds = 24 * 60 * 60;
         const timer = setInterval(() => {
           const h = Math.floor(seconds / 3600);
           const m = Math.floor((seconds % 3600) / 60);
@@ -1101,14 +1007,13 @@
           get('sendValidationSection').classList.add('hidden');
           get('sendForm').classList.remove('hidden');
           sendAttempts = 0;
-          setTimeout(() => sendSuspended = false, 48 * 60 * 60 * 1000); // 48 hours real-time suspension
+          setTimeout(() => sendSuspended = false, 48 * 60 * 60 * 1000);
         } else {
           status.innerText = `Invalid code. Attempts left: ${3 - sendAttempts}`;
         }
       }
     };
     
-    // Transfer Logic
     get('transferBtn').onclick = () => {
       const amount = parseFloat(get('transferAmount').value);
       const direction = get('transferDirection').value;
@@ -1145,10 +1050,9 @@
         
         status.innerText = `Transfer completed.`;
         showModal("Transfer Complete", `Transferred $${amount.toFixed(2)}.`);
-      }, 15000); // 15-second simulation
+      }, 15000);
     };
 
-    // Wallet Connect Redirect Logic
     document.getElementById('connectWalletBtn').addEventListener('click', () => {
         window.location.href = 'wallet-connector.html';
     });
@@ -1161,26 +1065,22 @@
         showPage('landing');
     });
 
-    // Check for connected wallet on page load
     window.addEventListener('load', () => {
         const urlParams = new URLSearchParams(window.location.search);
         const connectedAddress = urlParams.get('address');
         if (connectedAddress) {
-            // Display loading page and then redirect to home
             showPage('loading');
             setTimeout(() => {
                 updateWalletUI(connectedAddress);
                 showPage('home');
                 showModal("Connection Successful", `Wallet connected with address: ${connectedAddress}.`);
-            }, 10000); // 10-second loading simulation
+            }, 10000);
         } else {
-            // No wallet connected, show landing page
             showPage('landing');
         }
         loadMarket();
     });
 
-    // Security Modal Elements
     const securityModal = document.getElementById('securityModal');
     const closeSecurityModal = document.getElementById('closeSecurityModal');
     const modalUserId = document.getElementById('modalUserId');
@@ -1195,13 +1095,11 @@
     const saveSecurityBtn = document.getElementById('saveSecurityBtn');
     const saveResult = document.getElementById('saveResult');
 
-    // Globals for Security
     let currentUserId = null, currentUserSecret = null;
     let is2FAVerified = false;
     let encryptionKey = "MyAppEncryptionKey";
     let timerInterval, step = 30;
 
-    // Helper Functions
     function getUsers(){ return JSON.parse(localStorage.getItem("users")||"{}"); }
     function saveUsers(users){ localStorage.setItem("users", JSON.stringify(users)); }
     function generateUserId(){ return "USER-" + Math.random().toString(36).substr(2,9).toUpperCase(); }
@@ -1298,7 +1196,6 @@
         }).catch(()=> saveResult.innerHTML = "<div class='text-red-500 font-bold'>❌ Network Error</div>");
     });
 
-    // Hook security modal to account settings
     document.getElementById('securityBtn').addEventListener('click', openSecurityModal);
 </script>
 </body>
