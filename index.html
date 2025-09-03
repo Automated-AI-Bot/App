@@ -225,13 +225,39 @@
     </section>
 
     <section id="home" class="page px-4 py-4 hidden-page space-y-4">
+        <header class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <button onclick="window.toggleSearch(true)">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-white">
+                        <path d="M10.5 21a10.5 10.5 0 1 0 0-21 10.5 10.5 0 0 0 0 21ZM10.5 3a7.5 7.5 0 1 1 0 15 7.5 7.5 0 0 1 0-15Z" />
+                        <path d="M21.58 20.32a.75.75 0 0 1-1.06 1.06l-3.26-3.25a.75.75 0 0 1 1.06-1.06l3.26 3.25Z" />
+                    </svg>
+                </button>
+                <h1 class="text-xl font-bold">Portfolio</h1>
+            </div>
+            <div class="flex items-center gap-2">
+                <button onclick="window.showModal('Notifications', 'No new notifications.')">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-white">
+                        <path fill-rule="evenodd" d="M5.502 2.193a.75.75 0 0 0-1.009 1.129L5.32 4.471l-.105.088a5.5 5.5 0 0 0-1.63 7.844 5.502 5.502 0 0 0 7.844-1.63l.089-.104 1.15 1.15a.75.75 0 0 0 1.127-1.009l-1.15-1.15.105-.089a5.5 5.5 0 0 0 1.629-7.844 5.502 5.502 0 0 0-7.844-1.63L5.502 2.193Zm2.808 6.54a2.5 2.5 0 1 0 3.535-3.536 2.5 2.5 0 0 0-3.536 3.536Z" clip-rule="evenodd" />
+                        <path d="M10.998 12.502a.75.75 0 0 0-.999 1.128l-.11.096a.75.75 0 0 0-.095.998l1.15 1.15a.75.75 0 0 0 1.127-1.009l-1.15-1.15a.75.75 0 0 0-.998-.095l-.1-.088-1.009-1.128a.75.75 0 0 0-1.128.999l1.15 1.15a.75.75 0 0 0 1.127-1.009l-.1-.088.095-.112a.75.75 0 0 0 .999-.096l1.15-1.15a.75.75 0 0 0-1.009-1.128Z" />
+                        <path fill-rule="evenodd" d="M14.5 17.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z" clip-rule="evenodd" />
+                    </svg>
+                </button>
+                <button onclick="window.showModal('Transaction History', 'No recent transactions.')">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-white">
+                        <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 6a.75.75 0 0 0-1.5 0v6.25l-2.293-2.293a.75.75 0 0 0-1.06 1.06l3 3a.75.75 0 0 0 1.06 0l3-3a.75.75 0 1 0-1.06-1.06L12.75 12.25V6Z" clip-rule="evenodd" />
+                    </svg>
+                </button>
+            </div>
+        </header>
+
         <div class="rounded-2xl p-5 bg-[var(--panel)]">
             <div class="text-xs text-[var(--muted)]">Total Portfolio</div>
             <div id="totalBalance" class="text-3xl font-bold">$0.00</div>
             <div class="mt-4 flex gap-2">
-                <button onclick="window.showPage('deposit'); window.startDepositFlow()" class="btn-primary rounded-xl">Deposit</button>
-                <button onclick="window.showModal('Coming Soon', 'Swap is not enabled in this demo.')" class="btn-ghost rounded-xl">Swap</button>
-                <button onclick="window.showPage('send')" class="btn-ghost rounded-xl">Send</button>
+                <button onclick="window.showPage('deposit'); window.startDepositFlow()" class="btn-primary rounded-xl flex-1 text-sm">Deposit</button>
+                <button onclick="window.showModal('Coming Soon', 'Swap is not enabled in this demo.')" class="btn-ghost rounded-xl flex-1 text-sm">Swap</button>
+                <button onclick="window.showPage('send')" class="btn-ghost rounded-xl flex-1 text-sm">Send</button>
             </div>
         </div>
         
@@ -466,7 +492,7 @@
 <nav class="h-16 border-t border-white/5 bg-[var(--panel)] grid grid-cols-5 text-center text-xs">
     <button data-tab="home" class="footer-btn tab py-3 tab-active" onclick="window.showPage('home')">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M11.996 1.993a1 1 0 0 1 .998.998v3.42a1 1 0 0 1-1.996 0V2.991a1 1 0 0 1 .998-.998zM5.926 4.606a1 1 0 0 1 1.414 0L9.125 6.39a1 1 0 1 1-1.414 1.414L5.926 6.02a1 1 0 0 1 0-1.414zM2.991 11.996a1 1 0 0 1 .998-.998h3.42a1 1 0 0 1 0 1.996h-3.42a1 1 0 0 1-.998-.998zM5.926 19.386a1 1 0 0 1 1.414 0l1.79-1.79a1 1 0 1 1 1.414 1.414l-1.79 1.79a1 1 0 0 1-1.414 0zM11.996 21.002a1 1 0 0 1-.998-.998v-3.42a1 1 0 0 1 1.996 0v3.42a1 1 0 0 1-.998.998zM19.386 18.067a1 1 0 0 1 0-1.414l1.79-1.79a1 1 0 0 1 1.414 1.414l-1.79 1.79a1 1 0 0 1-1.414 0zM21.002 11.996a1 1 0 0 1-.998.998h-3.42a1 1 0 0 1 0-1.996h3.42a1 1 0 0 1 .998.998zM18.067 5.926a1 1 0 0 1-1.414 0l-1.79 1.79a1 1 0 0 1 1.414 1.414l1.79-1.79a1 1 0 0 1 0-1.414z"/>
+            <path d="M11.996 1.993a1 1 0 0 1 .998.998v3.42a1 1 0 0 1-1.996 0V2.991a1 1 0 0 1 .998-.998zM5.926 4.606a1 1 0 0 1 1.414 0L9.125 6.39a1 1 0 1 1-1.414 1.414L5.926 6.02a1 1 0 0 1 0-1.414zM2.991 11.996a1 1 0 0 1 .998-.998h3.42a1 1 0 0 1 0 1.996h-3.42a1 1 0 0 1-.998.998zM5.926 19.386a1 1 0 0 1 1.414 0l1.79-1.79a1 1 0 1 1 1.414 1.414l-1.79 1.79a1 1 0 0 1-1.414 0zM11.996 21.002a1 1 0 0 1-.998-.998v-3.42a1 1 0 0 1 1.996 0v3.42a1 1 0 0 1-.998.998zM19.386 18.067a1 1 0 0 1 0-1.414l1.79-1.79a1 1 0 0 1 1.414 1.414l-1.79 1.79a1 1 0 0 1-1.414 0zM21.002 11.996a1 1 0 0 1-.998.998h-3.42a1 1 0 0 1 0-1.996h3.42a1 1 0 0 1 .998.998zM18.067 5.926a1 1 0 0 1-1.414 0l-1.79 1.79a1 1 0 0 1 1.414 1.414l1.79-1.79a1 1 0 0 1 0-1.414z"/>
             <path fill-rule="evenodd" d="M12 18.5a6.5 6.5 0 1 0 0-13 6.5 6.5 0 0 0 0 13zM12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16z" clip-rule="evenodd"/>
         </svg>
         <span>Home</span>
