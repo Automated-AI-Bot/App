@@ -2,32 +2,22 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Blockchain Auto-Trading Bot</title>
     <meta name="theme-color" content="#0d0f14" />
-    <link rel="manifest" href="data:application/manifest+json,
-        %7B
-        %22name%22:%22Blockchain%20Auto-Trading%20Bot%22,
-        %22short_name%22:%22Bot%22,
-        %22start_url%22:%22./%22,
-        %22display%22:%22standalone%22,
-        %22background_color%22:%22%230d0f14%22,
-        %22theme_color%22:%22%230d0f14%22,
-        %22description%22:%22A%20demo%20PWA%20for%20a%20blockchain%20auto-trading%20bot%20terminal%20with%20live%20data%20and%20simulated%20features.%22,
-        %22icons%22:%5B
-            %7B
-            %22src%22:%221_Tw2u2Wy9h6splrhAbRHM_A-392650835.jpeg%22,
-            %22sizes%22:%22512x512%22,
-            %22type%22:%22image/jpeg%22
-            %7D,
-            %7B
-            %22src%22:%221_Tw2u2Wy9h6splrhAbRHM_A-392650835.jpeg%22,
-            %22sizes%22:%22192x192%22,
-            %22type%22:%22image/jpeg%22
-            %7D
-        %5D
-        %7D
-    " />
+    <link rel="manifest" href='data:application/manifest+json,{
+    "name":"Blockchain Auto-Trading Bot",
+    "short_name":"Bot",
+    "start_url":"./",
+    "display":"standalone",
+    "background_color":"#0d0f14",
+    "theme_color":"#0d0f14",
+    "icons":[
+      {"src":"./favicon.ico","sizes":"64x64 32x32 24x24 16x16","type":"image/x-icon"},
+      {"src":"./logo192.png","sizes":"192x192","type":"image/png"},
+      {"src":"./logo512.png","sizes":"512x512","type":"image/png"}
+    ]
+  }' />
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://s3.tradingview.com/tv.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
@@ -90,41 +80,15 @@
             border-radius: 8px;
             font-size: 10px;
         }
+        .token-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col">
-
-<script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js')
-          .then(registration => console.log('SW registered: ', registration))
-          .catch(registrationError => console.log('SW registration failed: ', registrationError));
-      });
-    }
-</script>
-
-<script id="sw-script" type="text/javascript">
-    self.addEventListener('install', (event) => {
-      event.waitUntil(
-        caches.open('v1').then((cache) => {
-          return cache.addAll([
-            '/',
-            '/index.html',
-            // Pre-cache other assets like CSS and JS files
-          ]);
-        })
-      );
-    });
-    self.addEventListener('fetch', (event) => {
-      event.respondWith(
-        caches.match(event.request).then((response) => {
-          return response || fetch(event.request);
-        })
-      );
-    });
-</script>
-
 
 <div id="modal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 hidden">
     <div class="bg-[var(--panel)] p-6 rounded-2xl shadow-xl max-w-sm mx-auto">
@@ -137,9 +101,9 @@
 <div id="securityModal" class="fixed inset-0 bg-black bg-opacity-70 hidden items-center justify-center z-50 p-4">
   <div class="bg-gray-900 text-gray-100 rounded-xl w-full max-w-lg p-6 relative">
     <button id="closeSecurityModal" class="absolute top-4 right-4 text-gray-400 hover:text-white font-bold text-lg">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
-            <path fill-rule="evenodd" d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
-        </svg>
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg>
     </button>
     <h2 class="text-2xl font-bold mb-4">🔐 Security Setup</h2>
 
@@ -161,8 +125,9 @@
     <div class="flex mb-4">
       <input type="password" id="modalFundPassword" placeholder="Enter fund password" class="flex-grow px-3 py-2 rounded-l bg-gray-800 text-white">
       <button id="toggleFundPassword" class="bg-gray-700 px-3 rounded-r">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.575 3.01 9.963 7.822.08.31.08.636 0 .946-.628 2.083-2.614 4.54-4.885 5.617A10.655 10.655 0 0 1 12 17.25a10.655 10.655 0 0 1-5.078-1.12c-2.271-1.077-4.257-3.534-4.885-5.617ZM2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.575 3.01 9.963 7.822.08.31.08.636 0 .946-.628 2.083-2.614 4.54-4.885 5.617A10.655 10.655 0 0 1 12 17.25a10.655 10.655 0 0 1-5.078-1.12c-2.271-1.077-4.257-3.534-4.885-5.617ZM2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.575 3.01 9.963 7.822.08.31.08.636 0 .946-.628 2.083-2.614 4.54-4.885 5.617A10.655 10.655 0 0 1 12 17.25a10.655 10.655 0 0 1-5.078-1.12c-2.271-1.077-4.257-3.534-4.885-5.617Z" />
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" viewBox="0 0 20 20" fill="currentColor">
+          <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
+          <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" />
         </svg>
       </button>
     </div>
@@ -174,38 +139,54 @@
 
 <header class="h-16 flex items-center justify-between px-4 border-b border-white/5 bg-[var(--panel)]">
     <div class="flex items-center gap-3">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8 text-[var(--brand)]">
-            <path d="M11.25 4.521a.75.75 0 0 1 .5.766L10.5 13.5h5.5a.75.75 0 0 1 .562 1.263l-7.25 8.25a.75.75 0 0 1-1.425-.129l-.25-2.25a.75.75 0 0 1 .942-.863l.36-.072a.5.5 0 0 0 .57-.614l-.624-3.573a.75.75 0 0 1 .91-.846l2.05-.183c.091.956.371 1.897.807 2.792a.75.75 0 0 1-1.168.932 7.502 7.502 0 0 1-.872-2.317l1.494.134a.5.5 0 0 0 .59-.57l-.36-.072a.75.75 0 0 1 .91-.846l2.128-.214a.75.75 0 0 1 .679.845l-4.07 7.102a.75.75 0 0 1-1.17-.417l.088-.41a.75.75 0 0 1 .86-.71zM11.25 10.5a.75.75 0 0 0 .75-.75V5.25a.75.75 0 0 0-1.5 0v4.5a.75.75 0 0 0 .75.75z" />
-            <path fill-rule="evenodd" d="M12 2.25a9.75 9.75 0 1 0 0 19.5 9.75 9.75 0 0 0 0-19.5ZM1.821 12a10.125 10.125 0 0 1 17.592-7.561 9.793 9.793 0 0 0-1.282 3.843 8.25 8.25 0 0 0-8.22 8.22c-.64-.993-.972-2.115-.972-3.262ZM12 3.75c3.245 0 6.208 1.488 8.163 3.897A9.877 9.877 0 0 0 12 19.467 9.877 9.877 0 0 0 3.837 7.647 10.125 10.125 0 0 1 12 3.75Z" clip-rule="evenodd" />
-        </svg>
+        <img alt="logo" class="w-8 h-8" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='feather feather-link' style='color:%231ea7fd;'%3E%3Cpath d='M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07L9.44 9.44a5 5 0 007.07 7.07l1.41-1.41'%3E%3C/path%3E%3Cpath d='M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.41-1.41'%3E%3C/path%3E%3C/svg%3E" />
         <div class="text-sm leading-tight">
-            <div class="font-bold">Blockchain</div>
+            <div class="font-bold">Blockchain Auto-Trading Bot</div>
             <div id="netTag" class="text-[11px] text-[var(--muted)]">Disconnected</div>
         </div>
     </div>
     <div class="flex items-center gap-2">
-        <button id="searchOpen" class="btn-ghost px-3 py-2 rounded-lg text-xs">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
-                <path fill-rule="evenodd" d="M10.5 3.75a6.75 6.75 0 1 0 0 13.5 6.75 6.75 0 0 0 0-13.5ZM2.25 10.5a8.25 8.25 0 1 1 14.59 5.28l4.68 4.68a.75.75 0 1 1-1.06 1.06l-4.68-4.68A8.25 8.25 0 0 1 2.25 10.5Z" clip-rule="evenodd" />
+        <button id="notificationsBtn" class="p-2 rounded-full hover:bg-white/5">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
             </svg>
         </button>
-        <button onclick="window.showModal('Coming Soon', 'Notifications are not yet implemented.')" class="btn-ghost px-3 py-2 rounded-lg text-xs">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
-                <path fill-rule="evenodd" d="M5.25 9a6.75 6.75 0 0 1 13.5 0v.75c0 2.123.8 4.057 2.118 5.52a.75.75 0 0 1-.297 1.206c-1.542.997-4.408 1.807-6.913 1.807-2.505 0-5.371-.81-6.913-1.807a.75.75 0 0 1-.297-1.206A8.256 8.256 0 0 0 5.25 9.75V9Z" clip-rule="evenodd" />
-                <path d="M10.967 18.84a.75.75 0 0 0-1.934 0 3.001 3.001 0 0 0-2.32 2.632.75.75 0 0 0 .737.747l.79-.039a.75.75 0 0 0 .584-.585 1.5 1.5 0 0 1 2.998 0 .75.75 0 0 0 .585.585l.79.04a.75.75 0 0 0 .736-.748 3.001 3.001 0 0 0-2.32-2.632Z" />
+        <button id="transactionsBtn" class="p-2 rounded-full hover:bg-white/5">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+        </button>
+        <button id="searchOpen" class="p-2 rounded-full hover:bg-white/5">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
             </svg>
         </button>
     </div>
 </header>
 
-<main class="flex-1">
+<main class="flex-1 overflow-auto">
     <section id="landing" class="page px-4 py-4 space-y-5">
         <div class="rounded-2xl p-5 glass">
-            <img alt="Blockchain Auto-Trading Bot Logo" class="w-full h-auto mb-4 rounded-lg" src="1_Tw2u2Wy9h6splrhAbRHM_A-392650835.jpeg" />
-            <h1 class="text-2xl font-bold">Welcome to the Bot</h1>
+            <img alt="Blockchain Auto-Trading Bot" class="w-full h-auto mb-4 rounded-lg" src="https://via.placeholder.com/600x400/1ea7fd/fff?text=Blockchain%20Auto-Trading%20Bot%20Logo" />
+            <h1 class="text-2xl font-bold">Welcome</h1>
             <p class="text-[var(--muted)]">Live market data, wallet connect demo, and charts — packaged as an installable PWA.</p>
             <div class="mt-4 grid grid-cols-2 gap-2">
-                <button id="connectWalletBtn" class="btn-primary rounded-xl">Connect Wallet</button>
+                <button id="connectWalletBtn" class="btn-primary rounded-xl">
+                    <div class="flex items-center justify-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 12V7H3v14h18v-5"></path>
+                            <line x1="16" y1="12" x2="21" y2="12"></line>
+                            <line x1="16" y1="16" x2="21" y2="16"></line>
+                            <line x1="12" y1="11" x2="12" y2="11"></line>
+                            <path d="M19 12h2a2 2 0 0 0 0-4h-3a2 2 0 0 1 0-4h4"></path>
+                        </svg>
+                        Connect Wallet
+                    </div>
+                </button>
                 <button id="getAppBtn" class="btn-ghost rounded-xl">GET APP</button>
             </div>
             <p class="safe-note mt-2">This demo is for educational UI only. Do not send funds.</p>
@@ -213,58 +194,16 @@
         <div class="rounded-2xl p-5 bg-[var(--panel)]">
             <div class="flex items-center justify-between mb-3">
                 <h2 class="font-semibold">Market Overview</h2>
-                <button id="refreshMarket" class="text-xs text-[var(--muted)]">Refresh</button>
+                <button id="refreshMarket" class="text-xs text-[var(--muted)]">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M23 4v6h-6"></path>
+                        <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+                    </svg>
+                    Refresh
+                </button>
             </div>
             <div id="marketList" class="divide-y divide-white/5"></div>
         </div>
-        <section id="how-it-works" class="px-4 py-4 space-y-4">
-            <h2 class="text-xl font-bold text-center text-[var(--brand)]">How It Works</h2>
-            <div class="rounded-2xl p-5 bg-[var(--panel)] space-y-4">
-                <div class="flex items-start gap-4">
-                    <div class="text-2xl font-bold text-[var(--accent)]">1.</div>
-                    <div>
-                        <h3 class="text-lg font-semibold">Connect Your Wallet</h3>
-                        <p class="text-sm text-[var(--muted)]">Securely link your existing crypto wallet. Your private keys never leave your wallet.</p>
-                    </div>
-                </div>
-                <div class="flex items-start gap-4">
-                    <div class="text-2xl font-bold text-[var(--accent)]">2.</div>
-                    <div>
-                        <h3 class="text-lg font-semibold">Explore Markets</h3>
-                        <p class="text-sm text-[var(--muted)]">Dive into our comprehensive market overview with real-time price updates and interactive charts.</p>
-                    </div>
-                </div>
-                <div class="flex items-start gap-4">
-                    <div class="text-2xl font-bold text-[var(--accent)]">3.</div>
-                    <div>
-                        <h3 class="text-lg font-semibold">Trade & Manage</h3>
-                        <p class="text-sm text-[var(--muted)]">Effortlessly execute simulated buy and sell orders, track your portfolio performance, and view your transaction history.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <section id="cta-section" class="px-4 py-4 text-center bg-[var(--panel-2)] rounded-2xl">
-            <h2 class="text-xl font-bold text-[var(--brand)] mb-2">Ready to Get Started?</h2>
-            <p class="text-sm text-[var(--muted)] mb-4">Join thousands of users who trust this platform for their crypto trading and portfolio management needs.</p>
-            <button id="cta-connect-wallet-btn" class="btn-primary rounded-xl">Connect Wallet & Start Trading</button>
-        </section>
-        <section id="faq" class="px-4 py-4 space-y-4">
-            <h2 class="text-xl font-bold text-center text-[var(--brand)]">Frequently Asked Questions</h2>
-            <div class="space-y-3">
-                <details class="bg-[var(--panel)] p-4 rounded-xl">
-                    <summary class="font-semibold text-white cursor-pointer">What is this platform?</summary>
-                    <p class="text-sm text-[var(--muted)] mt-2">This is a sophisticated crypto terminal that allows you to track market data, connect your wallet, and simulate crypto trades in real-time. It is a demo for educational purposes.</p>
-                </details>
-                <details class="bg-[var(--panel)] p-4 rounded-xl">
-                    <summary class="font-semibold text-white cursor-pointer">Is my wallet secure?</summary>
-                    <p class="text-sm text-[var(--muted)] mt-2">Yes, we use industry-standard secure connection methods. Your private keys never leave your wallet.</p>
-                </details>
-                <details class="bg-[var(--panel)] p-4 rounded-xl">
-                    <summary class="font-semibold text-white cursor-pointer">Do you support real trading?</summary>
-                    <p class="text-sm text-[var(--muted)] mt-2">Currently, this platform provides a simulation environment for trading. It's perfect for practicing strategies without real financial risk. No real orders are placed and no real funds are used.</p>
-                </details>
-            </div>
-        </section>
     </section>
 
     <section id="loading" class="page px-4 py-8 hidden-page">
@@ -276,38 +215,68 @@
             <div class="text-sm text-[var(--muted)]">Setting up your session...</div>
         </div>
     </section>
+    
+    <section id="loading-disconnect" class="page px-4 py-8 hidden-page">
+        <div class="flex flex-col items-center justify-center gap-4 mt-20">
+            <svg class="animate-spin h-10 w-10 text-[var(--danger)]" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+            </svg>
+            <div class="text-sm text-[var(--muted)]">Disconnecting...</div>
+        </div>
+    </section>
 
     <section id="home" class="page px-4 py-4 hidden-page space-y-4">
         <div class="rounded-2xl p-5 bg-[var(--panel)]">
-            <div class="text-xs text-[var(--muted)]">Total Portfolio</div>
-            <div id="totalBalance" class="text-3xl font-bold">$0.00</div>
+            <div class="flex items-center justify-between">
+                <div>
+                    <div class="text-xs text-[var(--muted)]">Total Portfolio</div>
+                    <div id="totalBalance" class="text-3xl font-bold">$0.00</div>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button onclick="window.showModal('DFI Wallet', 'This feature is a UI-only demo.')" class="p-2 rounded-full hover:bg-white/5">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                          <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                        </svg>
+                    </button>
+                    <button onclick="window.showPage('settings')" class="p-2 rounded-full hover:bg-white/5">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="3"></circle>
+                            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2h-2a2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 6.22 18a1.65 1.65 0 0 0-1.82.33L4.34 18a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 2-2h.09a1.65 1.65 0 0 0 1.82-.33L6 8.34a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H12a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1.82.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V12a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2z"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
             <div class="mt-4 flex gap-2">
-                <button onclick="window.showPage('deposit'); window.startDepositFlow()" class="btn-primary rounded-xl flex items-center gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
-                        <path d="M4.5 3.75a3 3 0 0 0-3 3v.75h21v-.75a3 3 0 0 0-3-3h-15Z" />
-                        <path fill-rule="evenodd" d="M22.5 9.75h-21v7.5a3 3 0 0 0 3 3h15a3 3 0 0 0 3-3v-7.5Zm-18 2.25a.75.75 0 0 1 .75-.75h6a.75.75 0 0 1 0 1.5h-6a.75.75 0 0 1-.75-.75Zm.75 2.25a.75.75 0 0 0 0 1.5h3a.75.75 0 0 0 0-1.5h-3Z" clip-rule="evenodd" />
-                    </svg>
-                    Deposit
+                <button onclick="window.showPage('deposit'); window.startDepositFlow()" class="btn-ghost rounded-xl">
+                    <div class="flex items-center justify-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="17 8 12 3 7 8"></polyline>
+                            <line x1="12" y1="3" x2="12" y2="15"></line>
+                        </svg>
+                        Deposit
+                    </div>
                 </button>
-                <button onclick="window.showPage('swap')" class="btn-ghost rounded-xl flex items-center gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
-                        <path d="M11.75 11.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0V12h-2.5a.75.75 0 0 1-.75-.75Z" />
-                        <path fill-rule="evenodd" d="M12.5 3.25a.75.75 0 0 1 .75.75v5.5a.75.75 0 0 1-1.5 0V4a.75.75 0 0 1 .75-.75Zm3.36 2.012a.75.75 0 0 1-.842.175l-2.617-1.164a.75.75 0 0 1 .175-.842l2.617-1.164a.75.75 0 0 1 .667.147.75.75 0 0 1 .175.842l-2.617 1.164a.75.75 0 0 1-.175.842Z" clip-rule="evenodd" />
-                        <path fill-rule="evenodd" d="M12.25 12.5a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0V13h-2.5a.75.75 0 0 1-.75-.75Z" />
-                        <path d="M11.75 12.25a.75.75 0 0 1-.75-.75V8a.75.75 0 0 1 1.5 0v3.5a.75.75 0 0 1-.75.75Z" />
-                        <path fill-rule="evenodd" d="M12.5 12.5a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5a.75.75 0 0 1 .75-.75Z" clip-rule="evenodd" />
-                        <path d="M11.75 11.25a.75.75 0 0 1-.75-.75V8a.75.75 0 0 1 1.5 0v2.5a.75.75 0 0 1-.75.75Z" />
-                        <path d="M12.5 12.5a.75.75 0 0 1 .75-.75v3.5a.75.75 0 0 1-1.5 0v-3.5a.75.75 0 0 1 .75-.75Z" />
-                    </svg>
-                    Swap
+                <button onclick="window.showPage('swap')" class="btn-ghost rounded-xl">
+                    <div class="flex items-center justify-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M11 5L4 12l7 7"></path>
+                            <path d="M18 5l7 7-7 7"></path>
+                        </svg>
+                        Swap
+                    </div>
                 </button>
-                <button onclick="window.showPage('send')" class="btn-ghost rounded-xl flex items-center gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
-                        <path d="M9.75 9.75a.75.75 0 0 1 1.5 0v3.5a.75.75 0 0 1-1.5 0v-3.5Z" />
-                        <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm0 18a8.25 8.25 0 1 0 0-16.5 8.25 8.25 0 0 0 0 16.5Zm-.75-10.5a.75.75 0 0 1 1.5 0v3.5a.75.75 0 0 1-1.5 0v-3.5Z" clip-rule="evenodd" />
-                        <path d="M9.75 9.75a.75.75 0 0 1 1.5 0v3.5a.75.75 0 0 1-1.5 0v-3.5Z" />
-                    </svg>
-                    Send
+                <button onclick="window.showPage('send')" class="btn-ghost rounded-xl">
+                    <div class="flex items-center justify-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="17 8 12 3 7 8"></polyline>
+                            <line x1="12" y1="3" x2="12" y2="15"></line>
+                        </svg>
+                        Send
+                    </div>
                 </button>
             </div>
         </div>
@@ -328,7 +297,13 @@
         <div class="rounded-2xl p-5 bg-[var(--panel)]">
             <div class="flex items-center justify-between mb-3">
                 <h2 class="font-semibold">Top Movers (24h)</h2>
-                <button id="refreshMovers" class="text-xs text-[var(--muted)]">Refresh</button>
+                <button id="refreshMovers" class="text-xs text-[var(--muted)]">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M23 4v6h-6"></path>
+                        <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+                    </svg>
+                    Refresh
+                </button>
             </div>
             <div id="moversList" class="divide-y divide-white/5"></div>
         </div>
@@ -338,23 +313,76 @@
         <div class="rounded-2xl p-5 bg-[var(--panel)]">
             <div class="flex items-center justify-between mb-3">
                 <h2 class="font-semibold">Discover</h2>
-                <button id="searchOpen2" class="btn-ghost rounded-lg text-xs">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
-                        <path fill-rule="evenodd" d="M10.5 3.75a6.75 6.75 0 1 0 0 13.5 6.75 6.75 0 0 0 0-13.5ZM2.25 10.5a8.25 8.25 0 1 1 14.59 5.28l4.68 4.68a.75.75 0 1 1-1.06 1.06l-4.68-4.68A8.25 8.25 0 0 1 2.25 10.5Z" clip-rule="evenodd" />
+                <button id="searchOpenDiscover" class="btn-ghost rounded-lg text-xs">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                     </svg>
+                    Search
                 </button>
             </div>
             <div id="discoverFeed" class="space-y-3"></div>
         </div>
     </section>
 
+    <section id="swap" class="page px-4 py-4 hidden-page space-y-4">
+      <div class="rounded-2xl p-5 bg-[var(--panel)]">
+          <div class="flex items-center justify-between mb-3">
+              <h2 class="font-semibold">Swap</h2>
+          </div>
+          <div class="space-y-4">
+              <div class="relative">
+                  <div class="flex items-center justify-between bg-[var(--panel-2)] p-4 rounded-xl">
+                      <input type="number" id="swapAmountInput" placeholder="0.0" class="bg-transparent text-white w-full text-2xl font-bold focus:outline-none"/>
+                      <button id="fromTokenBtn" class="flex items-center bg-gray-700 px-3 py-2 rounded-xl text-sm">
+                          <img id="fromTokenIcon" src="https://assets.coingecko.com/coins/images/279/small/ethereum.png?1595348880" class="token-icon" />
+                          <span id="fromTokenSymbol">ETH</span>
+                          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                              <path d="M6 9l6 6 6-6"></path>
+                          </svg>
+                      </button>
+                  </div>
+                  <button id="swapDirectionBtn" class="absolute left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[var(--panel)] p-2 rounded-full border border-gray-600">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <line x1="12" y1="5" x2="12" y2="19"></line>
+                          <polyline points="19 12 12 19 5 12"></polyline>
+                      </svg>
+                  </button>
+              </div>
+              <div class="relative">
+                  <div class="flex items-center justify-between bg-[var(--panel-2)] p-4 rounded-xl">
+                      <input type="number" id="swapReceiveInput" placeholder="0.0" class="bg-transparent text-white w-full text-2xl font-bold focus:outline-none"/>
+                      <button id="toTokenBtn" class="flex items-center bg-gray-700 px-3 py-2 rounded-xl text-sm">
+                          <img id="toTokenIcon" src="https://assets.coingecko.com/coins/images/1/small/bitcoin.png?1547033579" class="token-icon" />
+                          <span id="toTokenSymbol">BTC</span>
+                          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                              <path d="M6 9l6 6 6-6"></path>
+                          </svg>
+                      </button>
+                  </div>
+              </div>
+          </div>
+          <button id="executeSwapBtn" class="w-full btn-primary rounded-xl mt-4">Swap</button>
+          <p id="swapStatus" class="safe-note text-center mt-2"></p>
+      </div>
+    </section>
+
     <section id="trade" class="page px-4 py-4 hidden-page space-y-4">
         <div class="rounded-2xl p-5 bg-[var(--panel)]">
             <div class="flex items-center justify-between">
                 <h2 class="font-semibold">Trade</h2>
-                <button onclick="window.showPage('trade-chart')" class="btn-ghost rounded-lg text-xs">View Chart</button>
+                <button onclick="window.showModal('Coming Soon', 'Earnings screen is a UI-only demo.')" class="btn-ghost rounded-lg text-xs">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                        <polyline points="14 2 14 8 20 8"></polyline>
+                        <line x1="16" y1="13" x2="8" y2="13"></line>
+                        <line x1="16" y1="17" x2="8" y2="17"></line>
+                        <polyline points="10 9 9 9 8 9"></polyline>
+                    </svg>
+                    View Earnings
+                </button>
             </div>
-            
+            <div id="tradeChart" style="height:360px;"></div>
             <div class="mt-4 grid gap-4">
                 <div class="flex flex-col gap-2">
                     <label for="tradeAssetSelect" class="text-sm text-[var(--muted)]">Select Asset:</label>
@@ -382,6 +410,15 @@
                     <input type="number" id="tradeAmount" placeholder="Enter investment amount" class="w-full px-4 py-3 rounded-xl bg-[var(--panel-2)] border border-white/10 focus:outline-none focus:border-[var(--brand)] transition-colors">
                 </div>
                 <button id="startTradeBtn" class="btn-primary rounded-xl">Place Trade</button>
+                <button onclick="window.showPage('transfer')" class="btn-ghost rounded-xl">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="17 1 21 5 17 9"></polyline>
+                        <path d="M3 11v-4a4 4 0 0 1 4-4h14"></path>
+                        <polyline points="7 23 3 19 7 15"></polyline>
+                        <path d="M17 13v4a4 4 0 0 1-4 4H3"></path>
+                    </svg>
+                    Transfer Funds
+                </button>
             </div>
             
             <div id="tradeInfo" class="mt-6 rounded-xl p-4 bg-[var(--panel-2)]">
@@ -393,69 +430,8 @@
                     <span class="text-[var(--muted)]">Total Earnings:</span>
                     <span id="tradeEarnings" class="font-semibold">$0.00</span>
                 </div>
-                <div class="mt-4 grid grid-cols-2 gap-2">
-                    <button onclick="window.showPage('transfer')" class="btn-ghost rounded-xl">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
-                            <path d="M11.75 11.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0V12h-2.5a.75.75 0 0 1-.75-.75Z" />
-                            <path fill-rule="evenodd" d="M12.5 3.25a.75.75 0 0 1 .75.75v5.5a.75.75 0 0 1-1.5 0V4a.75.75 0 0 1 .75-.75Zm3.36 2.012a.75.75 0 0 1-.842.175l-2.617-1.164a.75.75 0 0 1 .175-.842l2.617-1.164a.75.75 0 0 1 .667.147.75.75 0 0 1 .175.842l-2.617 1.164a.75.75 0 0 1-.175.842Z" clip-rule="evenodd" />
-                            <path fill-rule="evenodd" d="M12.25 12.5a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0V13h-2.5a.75.75 0 0 1-.75-.75Z" clip-rule="evenodd" />
-                            <path d="M11.75 12.25a.75.75 0 0 1-.75-.75V8a.75.75 0 0 1 1.5 0v3.5a.75.75 0 0 1-.75.75Z" />
-                            <path fill-rule="evenodd" d="M12.5 12.5a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5a.75.75 0 0 1 .75-.75Z" clip-rule="evenodd" />
-                            <path d="M11.75 11.25a.75.75 0 0 1-.75-.75V8a.75.75 0 0 1 1.5 0v2.5a.75.75 0 0 1-.75.75Z" />
-                            <path d="M12.5 12.5a.75.75 0 0 1 .75-.75v3.5a.75.75 0 0 1-1.5 0v-3.5a.75.75 0 0 1 .75-.75Z" />
-                        </svg>
-                        Transfer
-                    </button>
-                    <button onclick="window.showModal('Coming Soon', 'Earnings history is a UI-only demo.')" class="btn-ghost rounded-xl">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
-                            <path d="M21.721 12.752a.75.75 0 0 0-.094-.508l-3.235-4.502a.75.75 0 0 0-1.29.544l.438 2.373H13.75c-.621 0-1.125.504-1.125 1.125v4.5c0 .621.504 1.125 1.125 1.125h3.818l-.438 2.373a.75.75 0 0 0 1.29.544l3.235-4.502a.75.75 0 0 0 .094-.508ZM12 12.75a.75.75 0 0 0-.75-.75H10.5V6.75a.75.75 0 0 0-.75-.75H5.25a.75.75 0 0 0-.75.75v8.25a.75.75 0 0 0 .75.75h4.5a.75.75 0 0 0 .75-.75v-1.25H10.5a.75.75 0 0 0 .75-.75v-.75Z" />
-                            <path fill-rule="evenodd" d="M.721 12.752a.75.75 0 0 1 0-.508l3.235-4.502a.75.75 0 0 1 1.29.544l-.438 2.373h4.636c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125H4.808l.438 2.373a.75.75 0 0 1-1.29.544L.72 13.252a.75.75 0 0 1 0-.508Z" clip-rule="evenodd" />
-                        </svg>
-                        Earnings
-                    </button>
-                </div>
             </div>
             <p class="safe-note mt-4">This is a non-custodial demo UI. No real orders are placed.</p>
-        </div>
-    </section>
-
-    <section id="trade-chart" class="page px-4 py-4 hidden-page space-y-4">
-        <div class="rounded-2xl p-5 bg-[var(--panel)]">
-            <div class="flex items-center justify-between">
-                <h2 class="font-semibold">Performance Chart</h2>
-                <button onclick="window.showPage('trade')" class="btn-ghost rounded-lg text-xs">Back</button>
-            </div>
-            <div id="tradeChart" style="height:360px;" class="mt-4"></div>
-        </div>
-    </section>
-
-    <section id="swap" class="page px-4 py-4 hidden-page space-y-4">
-        <div class="rounded-2xl p-5 bg-[var(--panel)]">
-            <div class="flex items-center justify-between">
-                <h2 class="font-semibold">Swap</h2>
-                <button onclick="window.showPage('home')" class="btn-ghost rounded-lg text-xs">Back</button>
-            </div>
-            <div id="swap-ui" class="mt-4 grid gap-4">
-                <div class="bg-[var(--panel-2)] p-4 rounded-xl">
-                    <div class="text-sm text-[var(--muted)]">From:</div>
-                    <select id="swapFromSelect" class="w-full mt-2 px-3 py-2 rounded-lg bg-[var(--panel-2)] border border-white/10"></select>
-                    <input type="number" id="swapFromAmount" placeholder="0.0" class="w-full mt-2 px-3 py-2 rounded-lg bg-[var(--panel-2)] border-none focus:outline-none text-xl" />
-                </div>
-                <div class="flex justify-center -mt-6 -mb-6 z-10">
-                    <button class="bg-[var(--brand)] p-2 rounded-full border border-white/10">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
-                            <path d="M19.5 7.5a.75.75 0 0 0-1.5 0v8.25H16.5a.75.75 0 0 0 0 1.5h2.25v2.25a.75.75 0 0 0 1.5 0v-2.25H21a.75.75 0 0 0 0-1.5h-1.5V7.5ZM5.25 18a.75.75 0 0 0 1.5 0V7.5H7.5a.75.75 0 0 0 0-1.5h-2.25V3.75a.75.75 0 0 0-1.5 0v2.25H3a.75.75 0 0 0 0 1.5h1.5v8.25Z" />
-                        </svg>
-                    </button>
-                </div>
-                <div class="bg-[var(--panel-2)] p-4 rounded-xl">
-                    <div class="text-sm text-[var(--muted)]">To:</div>
-                    <select id="swapToSelect" class="w-full mt-2 px-3 py-2 rounded-lg bg-[var(--panel-2)] border border-white/10"></select>
-                    <input type="text" id="swapToAmount" placeholder="0.0" readonly class="w-full mt-2 px-3 py-2 rounded-lg bg-[var(--panel-2)] border-none focus:outline-none text-xl" />
-                </div>
-                <button id="swapBtn" class="btn-primary rounded-xl">Swap</button>
-                <div id="swap-info" class="text-sm text-center text-[var(--muted)] mt-2"></div>
-            </div>
         </div>
     </section>
 
@@ -481,30 +457,27 @@
 
             <div class="mt-4 flex flex-col gap-2">
                 <button onclick="window.openWalletModal()" class="btn-ghost rounded-xl">
-                    <div class="flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
-                            <path d="M4.5 3.75a3 3 0 0 0-3 3v.75h21v-.75a3 3 0 0 0-3-3h-15Z" />
-                            <path fill-rule="evenodd" d="M22.5 9.75h-21v7.5a3 3 0 0 0 3 3h15a3 3 0 0 0 3-3v-7.5Zm-18 2.25a.75.75 0 0 1 .75-.75h6a.75.75 0 0 1 0 1.5h-6a.75.75 0 0 1-.75-.75Zm.75 2.25a.75.75 0 0 0 0 1.5h3a.75.75 0 0 0 0-1.5h-3Z" clip-rule="evenodd" />
-                        </svg>
-                        Connected Wallet
-                    </div>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M19 12H5"></path>
+                        <polyline points="12 5 5 12 12 19"></polyline>
+                    </svg>
+                    Connected Wallet
                 </button>
                 <button id="disconnectBtn" class="btn-ghost rounded-xl text-[var(--danger)] border border-[var(--danger)]">
-                    <div class="flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
-                            <path fill-rule="evenodd" d="M7.5 3.75A1.5 1.5 0 0 0 6 5.25v13.5a1.5 1.5 0 0 0 1.5 1.5h6a1.5 1.5 0 0 0 1.5-1.5V5.25a1.5 1.5 0 0 0-1.5-1.5h-6ZM9 6a.75.75 0 0 0 0 1.5h3a.75.75 0 0 0 0-1.5H9Zm-1.5 6a.75.75 0 0 1 .75-.75h.008a.75.75 0 0 1 .75.75v.008a.75.75 0 0 1-.75.75H8.25a.75.75 0 0 1-.75-.75v-.008Zm.75 4.5a.75.75 0 0 0 0 1.5h3a.75.75 0 0 0 0-1.5H8.25Z" clip-rule="evenodd" />
-                            <path d="M19.333 3.393c2.254 2.254 2.254 5.241 0 7.495L16.5 13.977a1.5 1.5 0 0 0-.44 1.06V19.5c0 1.056.452 2.068 1.22 2.76l.635.572c.582.525.965 1.28.965 2.083V24H.75v-2.208c0-.803.383-1.558.965-2.083l.635-.572a3.376 3.376 0 0 0 1.22-2.76v-4.463c0-.386-.118-.76-.33-.943L2.43 9.488a.75.75 0 1 1 1.06-1.06L5.5 10.977a3.001 3.001 0 0 1 .877 2.12v4.52a.75.75 0 0 0 .75.75h6.077c.307 0 .602-.09.847-.253L16.5 16.5l2.833-2.833Z" />
-                        </svg>
-                        Disconnect
-                    </div>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M16 17l5-5-5-5"></path>
+                        <path d="M19 12H2"></path>
+                        <path d="M12 20h9a2 2 0 002-2V6a2 2 0 00-2-2h-9"></path>
+                    </svg>
+                    Disconnect
                 </button>
                 <button id="securityBtn" class="btn-ghost rounded-xl">
-                    <div class="flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
-                            <path fill-rule="evenodd" d="M12 1.5a5.25 5.25 0 0 0-5.25 5.25v3a3 3 0 0 0-3 3v6.75a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3v-6.75a3 3 0 0 0-3-3v-3c0-2.9-2.35-5.25-5.25-5.25ZM12 4.5a3.75 3.75 0 1 0 0 7.5 3.75 3.75 0 0 0 0-7.5Z" clip-rule="evenodd" />
-                        </svg>
-                        Security
-                    </div>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2a10 10 0 00-10 10 10 10 0 0010 10 10 10 0 0010-10A10 10 0 0012 2z"></path>
+                        <path d="M8 14l4-4 4 4"></path>
+                        <path d="M12 10v6"></path>
+                    </svg>
+                    Security
                 </button>
             </div>
         </div>
@@ -557,7 +530,13 @@
                 <div id="selectedNetworkInfo" class="text-sm font-semibold"></div>
                 <div id="depositAddressText" class="break-all font-mono text-xs mt-1"></div>
                 <p class="safe-note mt-4">Only send <span id="depositCoinSymbol"></span> to this address. Sending other assets may result in permanent loss.</p>
-                <button onclick="window.copyAddress()" class="btn-ghost mt-4 w-full">Copy Address</button>
+                <button onclick="window.copyAddress()" class="btn-ghost mt-4 w-full">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                    </svg>
+                    Copy Address
+                </button>
             </div>
         </div>
     </section>
@@ -566,7 +545,13 @@
         <div class="rounded-2xl p-5 bg-[var(--panel)]">
             <div class="flex items-center justify-between mb-3">
                 <h2 class="font-semibold">Send Funds</h2>
-                <button onclick="window.showPage('home')" class="text-sm text-[var(--muted)]">Back</button>
+                <button onclick="window.showPage('home')" class="text-sm text-[var(--muted)]">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M19 12H5"></path>
+                        <polyline points="12 19 5 12 12 5"></polyline>
+                    </svg>
+                    Back
+                </button>
             </div>
             
             <div id="sendForm" class="grid gap-4 mt-3">
@@ -621,59 +606,51 @@
                 </div>
                 <button id="transferBtn" class="btn-primary rounded-xl">Transfer</button>
                 <p id="transferStatus" class="text-sm text-center text-[var(--muted)]"></p>
-                <button onclick="window.showPage('trade')" class="btn-ghost rounded-xl">Back</button>
+                <button onclick="window.showPage('trade')" class="btn-ghost rounded-xl">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M19 12H5"></path>
+                        <polyline points="12 19 5 12 12 5"></polyline>
+                    </svg>
+                    Back to Trade
+                </button>
             </div>
         </div>
     </section>
 
 </main>
-
-<nav class="h-16 border-t border-white/5 bg-[var(--panel)] grid grid-cols-5 text-center text-xs">
-    <button data-tab="home" onclick="window.showPage('home')" class="tab py-3 tab-active">
-        <div class="flex flex-col items-center">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
-                <path d="M11.47 3.864a.75.75 0 0 0-1.06 0l-7.5 7.5a.75.75 0 0 0 1.06 1.06l6.22-6.22V21a.75.75 0 0 0 1.5 0V6.204l6.22 6.22a.75.75 0 1 0 1.06-1.06l-7.5-7.5Z" />
-            </svg>
-            Home
-        </div>
+<nav class="h-16 border-t border-white/5 bg-[var(--panel)] grid grid-cols-4 text-center text-xs">
+    <button data-tab="home" class="tab py-3 tab-active">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mx-auto mb-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+        </svg>
+        Home
     </button>
-    <button data-tab="discover" onclick="window.showPage('discover')" class="tab py-3">
-        <div class="flex flex-col items-center">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
-                <path d="M10.875 18.75a.75.75 0 0 0 .75-1.5H6.75a.75.75 0 0 0-.75.75v3a.75.75 0 0 0 .75.75h3a.75.75 0 0 0 .75-.75v-3ZM6 18.75a.75.75 0 0 1-.75.75H3a.75.75 0 0 1-.75-.75v-3a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 .75.75v3ZM18.75 10.875a.75.75 0 0 0 .75-1.5H15a.75.75 0 0 0-.75.75v3a.75.75 0 0 0 .75.75h3a.75.75 0 0 0 .75-.75v-3ZM15 10.875a.75.75 0 0 1 .75.75v3a.75.75 0 0 1-.75.75h-3a.75.75 0 0 1-.75-.75v-3a.75.75 0 0 1 .75-.75h3ZM6.75 10.875a.75.75 0 0 0 .75-1.5H3a.75.75 0 0 0-.75.75v3a.75.75 0 0 0 .75.75h3a.75.75 0 0 0 .75-.75v-3ZM15.75 6.75a.75.75 0 0 0-.75.75v3a.75.75 0 0 0 .75.75h3a.75.75 0 0 0 .75-.75v-3a.75.75 0 0 0-.75-.75h-3ZM10.875 6a.75.75 0 0 0 .75-1.5h-3a.75.75 0 0 0-.75.75v3a.75.75 0 0 0 .75.75h3a.75.75 0 0 0 .75-.75v-3ZM15.75 3a.75.75 0 0 0-.75.75v3a.75.75 0 0 0 .75.75h3a.75.75 0 0 0 .75-.75v-3a.75.75 0 0 0-.75-.75h-3Z" />
-            </svg>
-            Discover
-        </div>
+    <button data-tab="discover" class="tab py-3">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mx-auto mb-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polygon points="12 2 15 9 22 12 15 15 12 22 9 15 2 12 9 9 12 2"></polygon>
+        </svg>
+        Discover
     </button>
-    <button data-tab="trade" onclick="window.showPage('trade')" class="tab py-3">
-        <div class="flex flex-col items-center">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
-                <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm-3.75 6a.75.75 0 0 0-1.5 0v1.5a.75.75 0 0 0 1.5 0V8.25Zm4.5 0a.75.75 0 0 0-1.5 0v5.25a.75.75 0 0 0 1.5 0V8.25Zm5.25 0a.75.75 0 0 0-1.5 0v8.25a.75.75 0 0 0 1.5 0V8.25Z" clip-rule="evenodd" />
-            </svg>
-            Trade
-        </div>
+    <button data-tab="trade" class="tab py-3">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mx-auto mb-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M15 12L9 6l-6 6"></path>
+            <path d="M9 18l6-6-6-6"></path>
+        </svg>
+        Trade
     </button>
-    <button data-tab="memes" onclick="window.showPage('memes')" class="tab py-3">
-        <div class="flex flex-col items-center">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
-                <path fill-rule="evenodd" d="M1.5 6a.75.75 0 0 1 .75-.75h1.5a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-.75.75h-1.5A.75.75 0 0 1 1.5 7.5v-1.5ZM5.25 6a.75.75 0 0 1 .75-.75h1.5a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-.75.75h-1.5a.75.75 0 0 1-.75-.75v-1.5ZM9 6a.75.75 0 0 1 .75-.75h1.5a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-.75.75H9a.75.75 0 0 1-.75-.75v-1.5ZM1.5 10.5a.75.75 0 0 1 .75-.75h1.5a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-.75.75h-1.5a.75.75 0 0 1-.75-.75v-1.5ZM5.25 10.5a.75.75 0 0 1 .75-.75h1.5a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-.75.75h-1.5a.75.75 0 0 1-.75-.75v-1.5ZM9 10.5a.75.75 0 0 1 .75-.75h1.5a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-.75.75H9a.75.75 0 0 1-.75-.75v-1.5ZM1.5 15a.75.75 0 0 1 .75-.75h1.5a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-.75.75h-1.5a.75.75 0 0 1-.75-.75v-1.5ZM5.25 15a.75.75 0 0 1 .75-.75h1.5a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-.75.75h-1.5a.75.75 0 0 1-.75-.75v-1.5ZM9 15a.75.75 0 0 1 .75-.75h1.5a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-.75.75H9a.75.75 0 0 1-.75-.75v-1.5ZM1.5 19.5a.75.75 0 0 1 .75-.75h1.5a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-.75.75h-1.5a.75.75 0 0 1-.75-.75v-1.5ZM5.25 19.5a.75.75 0 0 1 .75-.75h1.5a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-.75.75h-1.5a.75.75 0 0 1-.75-.75v-1.5ZM9 19.5a.75.75 0 0 1 .75-.75h1.5a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-.75.75H9a.75.75 0 0 1-.75-.75v-1.5Z" clip-rule="evenodd" />
-            </svg>
-            Meme
-        </div>
-    </button>
-    <button data-tab="settings" onclick="window.showPage('settings')" class="tab py-3">
-        <div class="flex flex-col items-center">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
-                <path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18ZM8.25 10.5a.75.75 0 0 0 0 1.5h7.5a.75.75 0 0 0 0-1.5h-7.5Zm0 3a.75.75 0 0 0 0 1.5h7.5a.75.75 0 0 0 0-1.5h-7.5Z" />
-            </svg>
-            Settings
-        </div>
+    <button data-tab="memes" class="tab py-3">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mx-auto mb-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2a10 10 0 0 0-10 10 10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2z"></path>
+            <line x1="12" y1="16" x2="12" y2="16"></line>
+            <path d="M12 12s-2-1-4-2c0-1 1-2 4-2s4 1 4 2c-2 1-4 2-4 2z"></path>
+        </svg>
+        Meme
     </button>
 </nav>
 
-<button id="installBtn" class="fixed bottom-20 right-4 btn-primary rounded-full px-5 py-3 hidden">
-    Install App
-</button>
+<button id="installBtn" class="fixed bottom-20 right-4 btn-primary rounded-full px-5 py-3 hidden">Install App</button>
 
 <div id="searchSheet" class="fixed inset-0 hidden bg-black/60 z-40 flex items-end">
     <div class="w-full bg-[var(--panel)] rounded-t-2xl p-4">
@@ -699,12 +676,37 @@
     </div>
 </div>
 
+<div id="selectTokenModal" class="fixed inset-0 hidden bg-black/60 z-40 flex items-end">
+  <div class="w-full bg-[var(--panel)] rounded-t-2xl p-4">
+    <div class="flex items-center justify-between mb-4">
+        <div class="font-semibold">Select a token</div>
+        <button class="text-sm" onclick="window.closeTokenSelectModal()">Close</button>
+    </div>
+    <input type="text" id="tokenSearchInput" class="w-full px-3 py-3 rounded-lg bg-[var(--panel-2)]" placeholder="Search tokens..." />
+    <div id="tokenList" class="mt-3 max-h-72 overflow-auto divide-y divide-white/5"></div>
+  </div>
+</div>
+
 <script>
+    // Service Worker
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').then(
+          registration => {
+            console.log('Service Worker registered: ', registration);
+          },
+          err => {
+            console.log('Service Worker registration failed: ', err);
+          }
+        );
+      });
+    }
+
     let mainWalletBalance = 10000.00; // Starting balance
     let tradeWalletBalance = 0.00;
     let tradeEarnings = 0.00;
     let tradeInterval;
-    let tradeDailyPercent = 13.95 / 100;
+    const tradeDailyPercent = 0.1395;
     
     // Send / Withdraw Logic
     const validCodes = ["483921", "175064", "902718", "634285", "217509", "856430", "490127", "731694", "562803", "308417", "941256", "128374", "675820", "203519", "487960", "819432", "356701", "740528", "612947", "098135", "573864", "284691", "160738", "495260", "837514", "021693", "658407", "794135", "320586", "946172"];
@@ -712,10 +714,9 @@
     let sendSuspended = false;
     let currentWallet = null;
 
-    // Helper function to get an element by ID
+    // A helper function to get an element by ID
     const get = (id) => document.getElementById(id);
 
-    // Modal and Page Management
     function showModal(title, message) {
         document.getElementById('modalTitle').textContent = title;
         document.getElementById('modalMessage').textContent = message;
@@ -727,12 +728,11 @@
     }
 
     function showPage(id) {
-        const pages = ['landing', 'loading', 'home', 'discover', 'trade', 'trade-chart', 'swap', 'memes', 'settings', 'deposit', 'send', 'transfer'];
+        const pages = ['landing', 'loading', 'loading-disconnect', 'home', 'discover', 'swap', 'trade', 'memes', 'settings', 'deposit', 'send', 'transfer'];
         pages.forEach(p => {
             const el = document.getElementById(p);
-            if (el) {
-                el.classList.toggle('hidden-page', p !== id);
-            }
+            if (!el) return;
+            el.classList.toggle('hidden-page', p !== id);
         });
 
         document.querySelectorAll('nav .tab').forEach(t => {
@@ -750,7 +750,7 @@
         if (id === 'discover') loadDiscover();
         if (id === 'memes') loadMemes();
         if (id === 'settings') updateAccountWalletInfo();
-        if (id === 'swap') loadSwapAssets();
+        if (id === 'swap') initSwapPage();
     }
 
     function updateHomeBalance() {
@@ -759,7 +759,7 @@
 
     function updateWalletUI(address) {
         currentWallet = address;
-        const accountId = generateAccountId();
+        const accountId = generateNumericAccountId();
         document.getElementById('netTag').textContent = `Connected`;
         document.getElementById('accountId').textContent = accountId;
         document.getElementById('homeAccountId').textContent = accountId;
@@ -769,19 +769,18 @@
         updateAccountWalletInfo();
     }
     
-    function generateAccountId() {
-        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-        let result = '';
-        for (let i = 0; i < 10; i++) {
-            result += chars.charAt(Math.floor(Math.random() * chars.length));
-        }
-        return result;
+    function generateNumericAccountId() {
+        const now = Date.now().toString();
+        const randomPart = Math.floor(Math.random() * 90000000) + 10000000;
+        const hash = now.substring(now.length - 2) + randomPart.toString();
+        return hash.substring(0, 10);
     }
 
     async function updateAccountWalletInfo() {
         if (currentWallet) {
             get('accountWalletAddress').innerText = currentWallet;
             try {
+                // In a real app, this would fetch the actual balance
                 get('accountWalletBalance').innerText = '1.2345 ETH';
             } catch (error) {
                 console.error("Failed to get balance:", error);
@@ -840,8 +839,11 @@
     });
 
     document.getElementById('getAppBtn').addEventListener('click', () => {
-        if (deferredPrompt) installBtn.classList.remove('hidden');
-        else showModal('Install App', 'Use your browser menu to "Add to Home Screen" or install.');
+        if (deferredPrompt) {
+            installBtn.click();
+        } else {
+            showModal('Install App', 'Use your browser menu to "Add to Home Screen" or install.');
+        }
     });
 
     // TradingView widgets
@@ -893,7 +895,9 @@
             list.innerHTML = '<div class="py-6 text-center text-sm text-[var(--muted)]">Failed to load market data.</div>';
         }
     }
-
+    
+    document.getElementById('refreshMarket').addEventListener('click', loadMarket);
+    
     async function loadMovers() {
         const list = document.getElementById('moversList');
         list.innerHTML = '<div class="py-4 text-center text-sm text-[var(--muted)]">Loading…</div>';
@@ -918,6 +922,8 @@
             list.innerHTML = '<div class="py-4 text-center text-sm text-[var(--muted)]">Failed to load.</div>';
         }
     }
+    
+    document.getElementById('refreshMovers').addEventListener('click', loadMovers);
 
     async function loadDiscover() {
         const box = document.getElementById('discoverFeed');
@@ -943,7 +949,7 @@
             box.innerHTML = '<div class="py-2 text-sm text-[var(--muted)]">Failed to load discover.</div>';
         }
     }
-
+    
     async function loadMemes() {
         const list = document.getElementById('memeList');
         list.innerHTML = '<div class="py-2 text-sm text-[var(--muted)]">Loading…</div>';
@@ -965,7 +971,7 @@
 
     // Search modal
     document.getElementById('searchOpen').addEventListener('click', () => window.toggleSearch(true));
-    document.getElementById('searchOpen2').addEventListener('click', () => window.toggleSearch(true));
+    document.getElementById('searchOpenDiscover').addEventListener('click', () => window.toggleSearch(true));
     document.getElementById('searchInput').addEventListener('input', async (e) => {
         const q = e.target.value.trim();
         const box = document.getElementById('searchResults');
@@ -986,10 +992,10 @@
 
     // Deposit Logic
     const depositAddresses = {
-        'btc': { network: 'Bitcoin (BTC)', address: 'bc1qv4fffwt8ux3k33n2dms5cdvuh6suc0gtfevxzu' },
-        'eth': { network: 'Ethereum (ERC-20)', address: '0xB36EDa1ffC696FFba07D4Be5cd249FE5E0118130' },
-        'bnb': { network: 'BNB Smart Chain (BEP20)', address: '0xB36EDa1ffC696FFba07D4Be5cd249FE5E0118130' },
-        'trx': { network: 'Tron (TRC-20)', address: 'TSt7yoNwGYRbtMMfkSAHE6dPs1cd9rxcco' }
+        'BTC': { network: 'Bitcoin (BTC)', address: 'bc1qv4fffwt8ux3k33n2dms5cdvuh6suc0gtfevxzu' },
+        'ETH': { network: 'Ethereum (ERC-20)', address: '0xB36EDa1ffC696FFba07D4Be5cd249FE5E0118130' },
+        'BNB': { network: 'BNB Smart Chain (BEP20)', address: '0xB36EDa1ffC696FFba07D4Be5cd249FE5E0118130' },
+        'TRX': { network: 'Tron (TRC-20)', address: 'TSt7yoNwGYRbtMMfkSAHE6dPs1cd9rxcco' }
     };
 
     let allCoins = [];
@@ -1015,9 +1021,9 @@
             return;
         }
         listContainer.innerHTML = coins.map(c => `
-            <button onclick="window.selectCoin('${c.id}', '${c.image}', '${c.name}', '${c.symbol}')" class="flex items-center gap-4 p-3 rounded-xl hover:bg-white/5 transition-colors w-full">
+            <button onclick="window.selectCoin('${c.id}', '${c.image}', '${c.name}', '${c.symbol}')" class="flex items-center gap-4 p-3 rounded-xl hover:bg-white/5 transition-colors w-full text-left">
                 <img src="${c.image}" class="w-8 h-8 rounded-full" onerror="this.onerror=null;this.src='https://placehold.co/32x32/1ea7fd/fff?text=?'"/>
-                <div class="flex-1 text-left">
+                <div class="flex-1">
                     <div class="font-semibold text-sm">${c.name}</div>
                     <div class="text-xs text-[var(--muted)]">${c.symbol.toUpperCase()}</div>
                 </div>
@@ -1056,8 +1062,8 @@
     function renderNetworkList() {
         const networkList = document.getElementById('networkList');
         networkList.innerHTML = '';
-        const networks = ['btc', 'eth', 'bnb', 'trx'];
-        networks.forEach(key => {
+        const networkKeys = ['BTC', 'ETH', 'BNB', 'TRX'];
+        networkKeys.forEach(key => {
             const net = depositAddresses[key];
             if (net) {
                 const button = document.createElement('button');
@@ -1108,55 +1114,99 @@
     });
 
     // Swap Logic
-    async function loadSwapAssets() {
-        const selectFrom = document.getElementById('swapFromSelect');
-        const selectTo = document.getElementById('swapToSelect');
-        
-        selectFrom.innerHTML = '<option disabled selected>Loading...</option>';
-        selectTo.innerHTML = '<option disabled selected>Loading...</option>';
-        
-        try {
-            const r = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=20&page=1&sparkline=false', { headers: cgHeaders });
-            const data = await r.json();
-            selectFrom.innerHTML = '';
-            selectTo.innerHTML = '';
+    let isFromToken = true;
+    let fromToken = { symbol: 'ETH', icon: 'https://assets.coingecko.com/coins/images/279/small/ethereum.png?1595348880' };
+    let toToken = { symbol: 'BTC', icon: 'https://assets.coingecko.com/coins/images/1/small/bitcoin.png?1547033579' };
+    let swapTokens = [];
 
-            data.forEach(c => {
-                const optionFrom = document.createElement('option');
-                optionFrom.value = c.id;
-                optionFrom.textContent = `${c.name} (${c.symbol.toUpperCase()})`;
-                selectFrom.appendChild(optionFrom);
-
-                const optionTo = document.createElement('option');
-                optionTo.value = c.id;
-                optionTo.textContent = `${c.name} (${c.symbol.toUpperCase()})`;
-                selectTo.appendChild(optionTo);
-            });
-            document.getElementById('swapFromAmount').value = '';
-            document.getElementById('swapToAmount').value = '';
-        } catch (e) {
-            showModal("Error", "Failed to load assets. Check your network connection.");
-        }
+    async function fetchSwapTokens() {
+      try {
+        const res = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&per_page=100&page=1&sparkline=false');
+        swapTokens = await res.json();
+        updateSwapTokensUI();
+      } catch (e) {
+        console.error("Failed to fetch tokens for swap", e);
+        showModal('Error', 'Failed to load tokens for swap. Please try again later.');
+      }
     }
 
-    document.getElementById('swapFromAmount').addEventListener('input', (e) => {
-        const amount = parseFloat(e.target.value);
-        if (isNaN(amount) || amount <= 0) {
-            document.getElementById('swapToAmount').value = '';
-            return;
-        }
-        const rate = Math.random() * (1.1 - 0.9) + 0.9; // Simulated rate
-        document.getElementById('swapToAmount').value = (amount * rate).toFixed(4);
+    function updateSwapTokensUI() {
+      document.getElementById('fromTokenIcon').src = fromToken.icon;
+      document.getElementById('fromTokenSymbol').textContent = fromToken.symbol;
+      document.getElementById('toTokenIcon').src = toToken.icon;
+      document.getElementById('toTokenSymbol').textContent = toToken.symbol;
+    }
+
+    function openTokenSelectModal(isFrom) {
+      isFromToken = isFrom;
+      const list = document.getElementById('tokenList');
+      list.innerHTML = swapTokens.map(t => `
+        <button onclick="window.selectSwapToken('${t.symbol}', '${t.image}')" class="flex items-center p-3 w-full hover:bg-white/5 rounded">
+          <img src="${t.image}" class="token-icon"/>
+          <div class="font-semibold text-sm">${t.name} <span class="text-xs text-[var(--muted)]">${t.symbol.toUpperCase()}</span></div>
+        </button>
+      `).join('');
+      document.getElementById('selectTokenModal').classList.remove('hidden');
+    }
+
+    function closeTokenSelectModal() {
+      document.getElementById('selectTokenModal').classList.add('hidden');
+      document.getElementById('tokenSearchInput').value = '';
+    }
+
+    function selectSwapToken(symbol, icon) {
+      const selectedToken = { symbol: symbol.toUpperCase(), icon };
+      if (isFromToken) {
+        fromToken = selectedToken;
+      } else {
+        toToken = selectedToken;
+      }
+      updateSwapTokensUI();
+      closeTokenSelectModal();
+    }
+
+    function initSwapPage() {
+      if (swapTokens.length === 0) fetchSwapTokens();
+    }
+
+    document.getElementById('fromTokenBtn').onclick = () => openTokenSelectModal(true);
+    document.getElementById('toTokenBtn').onclick = () => openTokenSelectModal(false);
+    document.getElementById('swapDirectionBtn').onclick = () => {
+      [fromToken, toToken] = [toToken, fromToken];
+      updateSwapTokensUI();
+    };
+
+    document.getElementById('tokenSearchInput').addEventListener('input', (e) => {
+        const query = e.target.value.toLowerCase();
+        const list = document.getElementById('tokenList');
+        const filtered = swapTokens.filter(t => t.name.toLowerCase().includes(query) || t.symbol.toLowerCase().includes(query));
+        list.innerHTML = filtered.map(t => `
+            <button onclick="window.selectSwapToken('${t.symbol}', '${t.image}')" class="flex items-center p-3 w-full hover:bg-white/5 rounded">
+                <img src="${t.image}" class="token-icon"/>
+                <div class="font-semibold text-sm">${t.name} <span class="text-xs text-[var(--muted)]">${t.symbol.toUpperCase()}</span></div>
+            </button>
+        `).join('');
     });
 
-    document.getElementById('swapBtn').addEventListener('click', () => {
-        const fromAmount = parseFloat(document.getElementById('swapFromAmount').value);
-        if (isNaN(fromAmount) || fromAmount <= 0) {
-            showModal("Invalid Amount", "Please enter a valid amount to swap.");
+    document.getElementById('executeSwapBtn').onclick = () => {
+        const amount = parseFloat(document.getElementById('swapAmountInput').value);
+        if (isNaN(amount) || amount <= 0) {
+            showModal('Invalid Amount', 'Please enter a valid amount to swap.');
             return;
         }
-        showModal("Swap Failed (Demo)", "Uniswap API requires a private key for transactions. This is a UI demo only.");
-    });
+
+        const status = document.getElementById('swapStatus');
+        status.textContent = 'Executing swap...';
+        showModal('Swap Execution', 'This is a demo. In a real app, a wallet transaction would be initiated with a live API (e.g., Uniswap SDK) to perform the swap.');
+        
+        // Simulating API call
+        setTimeout(() => {
+            status.textContent = `Successfully swapped ${amount} ${fromToken.symbol} for ${toToken.symbol}.`;
+        }, 3000);
+    };
+
+    window.selectSwapToken = selectSwapToken;
+    window.closeTokenSelectModal = closeTokenSelectModal;
 
     // Trade Logic
     async function loadTradeAssets() {
@@ -1218,7 +1268,7 @@
             document.getElementById('tradeBalance').innerText = '$' + tradeWalletBalance.toFixed(2);
             document.getElementById('tradeEarnings').innerText = '$' + tradeEarnings.toFixed(2);
             day++;
-        }, 1000); // 1 second = 1 day simulation
+        }, 1000);
     }
 
     document.getElementById('startTradeBtn').addEventListener('click', startTrade);
@@ -1260,7 +1310,7 @@
         mainWalletBalance -= amount + 0.19;
         updateHomeBalance();
 
-        let seconds = 24 * 60 * 60; // 24 hours simulation
+        let seconds = 24 * 60 * 60;
         const timer = setInterval(() => {
           const h = Math.floor(seconds / 3600);
           const m = Math.floor((seconds % 3600) / 60);
@@ -1286,7 +1336,7 @@
           get('sendValidationSection').classList.add('hidden');
           get('sendForm').classList.remove('hidden');
           sendAttempts = 0;
-          setTimeout(() => sendSuspended = false, 48 * 60 * 60 * 1000); // 48 hours real-time suspension
+          setTimeout(() => sendSuspended = false, 48 * 60 * 60 * 1000);
         } else {
           status.innerText = `Invalid code. Attempts left: ${3 - sendAttempts}`;
         }
@@ -1330,39 +1380,33 @@
         
         status.innerText = `Transfer completed.`;
         showModal("Transfer Complete", `Transferred $${amount.toFixed(2)}.`);
-      }, 15000);
+      }, 1500);
     };
 
     // Wallet Connect Redirect Logic
     document.getElementById('connectWalletBtn').addEventListener('click', () => {
-        showPage('loading');
-        setTimeout(() => {
-            const mockAddress = `0x${Math.random().toString(16).substr(2, 40)}`;
-            updateWalletUI(mockAddress);
-            showPage('home');
-            showModal("Connection Successful", `Wallet connected with address: ${mockAddress}.`);
-        }, 5000);
-    });
-    document.getElementById('cta-connect-wallet-btn').addEventListener('click', () => {
-        showPage('loading');
-        setTimeout(() => {
-            const mockAddress = `0x${Math.random().toString(16).substr(2, 40)}`;
-            updateWalletUI(mockAddress);
-            showPage('home');
-            showModal("Connection Successful", `Wallet connected with address: ${mockAddress}.`);
-        }, 5000);
-    });
-
-    document.getElementById('disconnectBtn').addEventListener('click', () => {
-        showPage('loading');
-        setTimeout(() => {
-            currentWallet = null;
-            showModal('Disconnected', 'Wallet has been disconnected.');
-            showPage('landing');
-        }, 3000);
+        window.location.href = 'wallet-connector.html';
     });
     
-    // Initial Page Load
+    document.getElementById('disconnectBtn').addEventListener('click', () => {
+        showPage('loading-disconnect');
+        setTimeout(() => {
+            localStorage.removeItem('connectedWallet');
+            showModal('Disconnected', 'Wallet has been disconnected.');
+            window.history.pushState({}, '', '/');
+            showPage('landing');
+        }, 1500);
+    });
+
+    // Page navigation from footer
+    document.querySelectorAll('nav .tab').forEach(button => {
+        button.addEventListener('click', () => {
+            const pageId = button.dataset.tab;
+            showPage(pageId);
+        });
+    });
+
+    // Check for connected wallet on page load
     window.addEventListener('load', () => {
         const urlParams = new URLSearchParams(window.location.search);
         const connectedAddress = urlParams.get('address');
@@ -1372,7 +1416,7 @@
                 updateWalletUI(connectedAddress);
                 showPage('home');
                 showModal("Connection Successful", `Wallet connected with address: ${connectedAddress}.`);
-            }, 3000);
+            }, 1500);
         } else {
             showPage('landing');
         }
@@ -1394,16 +1438,14 @@
     const saveSecurityBtn = document.getElementById('saveSecurityBtn');
     const saveResult = document.getElementById('saveResult');
 
-    // Globals for Security
     let currentUserId = null, currentUserSecret = null;
     let is2FAVerified = false;
     let encryptionKey = "MyAppEncryptionKey";
     let timerInterval, step = 30;
 
-    // Helper Functions
     function getUsers(){ return JSON.parse(localStorage.getItem("users")||"{}"); }
     function saveUsers(users){ localStorage.setItem("users", JSON.stringify(users)); }
-    function generateUserId(){ return "USER-" + Math.random().toString(36).substr(2,9).toUpperCase(); }
+    function generateNumericAccountId(){ return Math.floor(1000000000 + Math.random() * 9000000000).toString(); }
 
     function openSecurityModal(){
         securityModal.classList.remove('hidden');
@@ -1416,7 +1458,7 @@
     });
 
     function generate2FA(){
-        const userId = generateUserId();
+        const userId = generateNumericAccountId();
         const username = "User" + Math.floor(Math.random()*10000);
         const secret = otplib.authenticator.generateSecret();
         currentUserId = userId;
@@ -1424,7 +1466,7 @@
 
         const otpauth = otplib.authenticator.keyuri(username,"MyApp",secret);
         modalQrCode.innerHTML = "";
-        new QRCode(modalQrCode, otpauth);
+        new QRCode(modalQrCode, { text: otpauth, width: 128, height: 128 });
         modalSecretKey.innerText = "Secret Key: " + secret;
         modalUsername.value = username;
         modalUserId.innerText = userId;
@@ -1457,7 +1499,7 @@
         const username = users[currentUserId].username;
         const otpauth = otplib.authenticator.keyuri(username,"MyApp",secret);
         modalQrCode.innerHTML = "";
-        new QRCode(modalQrCode, otpauth);
+        new QRCode(modalQrCode, { text: otpauth, width: 128, height: 128 });
     }
 
     verify2FABtn.addEventListener('click', ()=>{
@@ -1497,8 +1539,7 @@
         }).catch(()=> saveResult.innerHTML = "<div class='text-red-500 font-bold'>❌ Network Error</div>");
     });
 
-    // Hook security modal to account settings
     document.getElementById('securityBtn').addEventListener('click', openSecurityModal);
 </script>
-</body>  
+</body>
 </html>
