@@ -489,44 +489,28 @@
     </section>
 
 </main>
-<nav class="h-16 border-t border-white/5 bg-[var(--panel)] grid grid-cols-5 text-center text-xs">
-    <button data-tab="home" class="footer-btn tab py-3 tab-active" onclick="window.showPage('home')">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M11.996 1.993a1 1 0 0 1 .998.998v3.42a1 1 0 0 1-1.996 0V2.991a1 1 0 0 1 .998-.998zM5.926 4.606a1 1 0 0 1 1.414 0L9.125 6.39a1 1 0 1 1-1.414 1.414L5.926 6.02a1 1 0 0 1 0-1.414zM2.991 11.996a1 1 0 0 1 .998-.998h3.42a1 1 0 0 1 0 1.996h-3.42a1 1 0 0 1-.998.998zM5.926 19.386a1 1 0 0 1 1.414 0l1.79-1.79a1 1 0 1 1 1.414 1.414l-1.79 1.79a1 1 0 0 1-1.414 0zM11.996 21.002a1 1 0 0 1-.998-.998v-3.42a1 1 0 0 1 1.996 0v3.42a1 1 0 0 1-.998.998zM19.386 18.067a1 1 0 0 1 0-1.414l1.79-1.79a1 1 0 0 1 1.414 1.414l-1.79 1.79a1 1 0 0 1-1.414 0zM21.002 11.996a1 1 0 0 1-.998.998h-3.42a1 1 0 0 1 0-1.996h3.42a1 1 0 0 1 .998.998zM18.067 5.926a1 1 0 0 1-1.414 0l-1.79 1.79a1 1 0 0 1 1.414 1.414l1.79-1.79a1 1 0 0 1 0-1.414z"/>
-            <path fill-rule="evenodd" d="M12 18.5a6.5 6.5 0 1 0 0-13 6.5 6.5 0 0 0 0 13zM12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16z" clip-rule="evenodd"/>
-        </svg>
-        <span>Home</span>
-    </button>
-    <button data-tab="discover" class="footer-btn tab py-3" onclick="window.showPage('discover')">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 3a9 9 0 0 0-9 9c0 1.76.5 3.4 1.38 4.8.88-1.4 1.38-3.04 1.38-4.8a6.5 6.5 0 1 1 13 0c0 1.76.5 3.4 1.38 4.8.88-1.4 1.38-3.04 1.38-4.8a9 9 0 0 0-9-9z"/>
-            <path fill-rule="evenodd" d="M12 18.5a6.5 6.5 0 1 0 0-13 6.5 6.5 0 0 0 0 13zM12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16z" clip-rule="evenodd"/>
-            <path d="M20.69 16.5A9.95 9.95 0 0 1 12 22a9.95 9.95 0 0 1-8.69-5.5.99.99 0 0 1 .38-.28 1 1 0 0 1 1.2.22A9 9 0 0 0 12 20a9 9 0 0 0 7.11-3.56 1 1 0 0 1 1.2-.22.99.99 0 0 1 .38.28z"/>
-        </svg>
-        <span>Discover</span>
-    </button>
-    <button data-tab="trade" class="footer-btn tab py-3" onclick="window.showPage('trade')">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-            <path fill-rule="evenodd" d="M4.293 2.293a1 1 0 0 1 1.414 0l6 6a1 1 0 0 1-1.414 1.414l-6-6a1 1 0 0 1 0-1.414zM16 11.5a1 1 0 1 0 0 2h3a1 1 0 1 0 0-2h-3zM14.5 16a1 1 0 1 0-2 0v3a1 1 0 1 0 2 0v-3zM2.5 16a1 1 0 1 0-2 0v3a1 1 0 1 0 2 0v-3z" clip-rule="evenodd"/>
-            <path d="M15 15a1 1 0 0 1 1-1h6a1 1 0 1 1 0 2h-6a1 1 0 0 1-1-1zM9 15a1 1 0 0 1 1-1h4a1 1 0 1 1 0 2h-4a1 1 0 0 1-1-1zM11 11a1 1 0 0 1 1-1h6a1 1 0 1 1 0 2h-6a1 1 0 0 1-1-1zM5 11a1 1 0 0 1 1-1h4a1 1 0 1 1 0 2h-4a1 1 0 0 1-1-1zM18 7a1 1 0 0 1 1-1h4a1 1 0 1 1 0 2h-4a1 1 0 0 1-1-1zM12 7a1 1 0 0 1 1-1h4a1 1 0 1 1 0 2h-4a1 1 0 0 1-1-1z"/>
-            <path d="M2.293 2.293a1 1 0 0 1 1.414 0l6 6a1 1 0 0 1-1.414 1.414l-6-6a1 1 0 0 1 0-1.414z"/>
-        </svg>
-        <span>Trade</span>
-    </button>
-    <button data-tab="memes" class="footer-btn tab py-3" onclick="window.showPage('memes')">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zM10.5 8a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zM16.5 8a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zM12 17.5a4.5 4.5 0 0 1-4.5-4.5h9a4.5 4.5 0 0 1-4.5 4.5z"/>
-        </svg>
-        <span>Meme</span>
-    </button>
-    <button data-tab="settings" class="footer-btn tab py-3" onclick="window.showPage('settings')">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M19.16 1.48L17.75 0 14.33 3.42 15.75 4.84A1 1 0 0 1 15.75 6.25L14.33 7.67A1 1 0 0 1 13 7.67L11.58 6.25A1 1 0 0 1 11.58 4.84L13 3.42 9.58 0 8.17 1.42A1 1 0 0 1 8.17 2.83L9.58 4.25A1 1 0 0 1 9.58 5.67L8.17 7.08A1 1 0 0 1 6.75 7.08L5.33 5.67A1 1 0 0 1 5.33 4.25L6.75 2.83A1 1 0 0 1 6.75 1.42L5.33 0 1.92 3.42 3.33 4.84A1 1 0 0 1 3.33 6.25L1.92 7.67A1 1 0 0 1 1.92 9.08L3.33 10.5A1 1 0 0 1 3.33 11.92L1.92 13.33A1 1 0 0 1 1.92 14.75L3.33 16.17A1 1 0 0 1 3.33 17.58L1.92 19 5.33 22.42 6.75 21A1 1 0 0 1 6.75 19.58L8.17 18.17A1 1 0 0 1 8.17 16.75L9.58 15.33A1 1 0 0 1 9.58 13.92L8.17 12.5A1 1 0 0 1 8.17 11.08L9.58 9.67A1 1 0 0 1 9.58 8.25L8.17 6.83A1 1 0 0 1 6.75 6.83L5.33 8.25A1 1 0 0 1 5.33 9.67L6.75 11.08A1 1 0 0 1 6.75 12.5L5.33 13.92A1 1 0 0 1 5.33 15.33L6.75 16.75A1 1 0 0 1 6.75 18.17L8.17 19.58A1 1 0 0 1 8.17 21L9.58 22.42 13 19 14.42 20.42A1 1 0 0 1 14.42 21.83L13 23.25A1 1 0 0 1 13 24.67L14.42 26.08A1 1 0 0 1 14.42 27.5L13 28.92A1 1 0 0 1 13 30.33L14.42 31.75A1 1 0 0 1 15.83 31.75L17.25 30.33A1 1 0 0 1 17.25 28.92L15.83 27.5A1 1 0 0 1 15.83 26.08L17.25 24.67A1 1 0 0 1 18.67 24.67L20.08 26.08A1 1 0 0 1 20.08 27.5L18.67 28.92A1 1 0 0 1 18.67 30.33L20.08 31.75A1 1 0 0 1 21.5 31.75L22.92 30.33A1 1 0 0 1 22.92 28.92L21.5 27.5A1 1 0 0 1 21.5 26.08L22.92 24.67A1 1 0 0 1 22.92 23.25L21.5 21.83A1 1 0 0 1 21.5 20.42L22.92 19A1 1 0 0 1 22.92 17.58L21.5 16.17A1 1 0 0 1 21.5 14.75L22.92 13.33A1 1 0 0 1 22.92 11.92L21.5 10.5A1 1 0 0 1 21.5 9.08L22.92 7.67A1 1 0 0 1 22.92 6.25L21.5 4.84A1 1 0 0 1 21.5 3.42L22.92 1.92A1 1 0 0 1 22.92 0.5L21.5 0Z"/>
-            <path d="M12 12a4 4 0 1 0 0 8 4 4 0 0 0 0-8z"/>
-        </svg>
-        <span>Settings</span>
-    </button>
-</nav>
+
+      <!-- Footer -->
+      <footer class="p-4 bg-[#1e1e1e] flex justify-around items-center shadow-lg">
+        <button id="homeFooterBtn" class="flex-1 flex flex-col items-center text-blue-400">
+          <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path></svg>
+          <span class="text-xs mt-1">Home</span>
+        </button>
+        <button id="discoverFooterBtn" class="flex-1 flex flex-col items-center text-gray-400 hover:text-blue-400">
+          <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm4.59-12.41L10 14.17l-2.59-2.58L6 13l4 4 6-6-1.41-1.41z"></path></svg>
+          <span class="text-xs mt-1">Discover</span>
+        </button>
+        <button id="tradeFooterBtn" class="flex-1 flex flex-col items-center text-gray-400 hover:text-blue-400">
+          <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M15 6h-3v2h3v2h-3v2h3v2h-3v2h3v2h2v-2h2v-2h-2v-2h2v-2h-2V8h2V6h-2zm-2-2h-2V2H9v2H7v2h2v2h2V6h2V4z"></path></svg>
+          <span class="text-xs mt-1">Trade</span>
+        </button>
+        <button id="memesFooterBtn" class="flex-1 flex flex-col items-center text-gray-400 hover:text-blue-400">
+          <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-2.88-5.34l-2.09-2.09L5.5 14l2.5 2.5 4.5-4.5-1.41-1.41-2.09 2.09zm0-4.32L9.59 9.59l1.41 1.41-2.09 2.09-1.41-1.41 2.09-2.09z"></path></svg>
+          <span class="text-xs mt-1">Memes</span>
+        </button>
+      </footer>
+    </div>
+    
 
 <button id="installBtn" class="fixed bottom-20 right-4 btn-primary rounded-full px-5 py-3 hidden">Install App</button>
 
