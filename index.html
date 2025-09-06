@@ -883,51 +883,34 @@
     // PWA Install Logic
 let deferredPrompt = null;
 
-const usePWAInstall = (setShowInstallButton) => {
-    useEffect(() => {
-        // Fired before the PWA install prompt
-        const handleBeforeInstallPrompt = (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            setShowInstallButton(true); // Show install button
-            console.log('beforeinstallprompt fired, install button shown.');
-        };
+// Elements
+const installBtn = document.getElementById('installBtn');
+const getAppBtn = document.getElementById('getAppBtn');
 
-        // Fired when PWA is install
-        const handleAppInstalled = () => {
-            deferredPrompt = null;
-            setShowInstallButton(false); // Hide install button after installation
-            console.log('PWA was installed!');
-        };
+// Listen for beforeinstallprompt event
+window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;             
+    installBtn.classList.remove('hidden'); // Show the install button
+    console.log('PWA install prompt available.');
+});
 
-        window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
-        window.addEventListener('appinstalled', handleAppInstalled);
+// Handle install button click
+installBtn.addEventListener('click', async () => {
+    if (!deferredPrompt) return;  // Do nothing if prompt is not available
 
-        // Check if deferredPrompt is already available
-        if (deferredPrompt) {
-            setShowInstallButton(true);
-        }
+    deferredPrompt.prompt();       // Show the install prompt
+    await deferredPrompt.userChoice;
+    deferredPrompt = null;         // Clear stored prompt
+    installBtn.classList.add('hidden'); // Hide install button after prompt
+});
 
-        return () => {
-            window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
-            window.removeEventListener('appinstalled', handleAppInstalled);
-        };
-    }, [setShowInstallButton]);
-
-    // Function to trigger PWA installation
-    const handleInstallClick = async () => {
-        if (!deferredPrompt) return; // Do nothing if prompt not available
-
-        deferredPrompt.prompt();      // Show the install prompt
-        await deferredPrompt.userChoice;
-        deferredPrompt = null;        // Clear stored prompt
-        setShowInstallButton(false);  // Hide the install button
-    };
-
-    return { handleInstallClick };
-};
-
- export default usePWAInstall;
+// Handle external "Get App" button click
+getAppBtn.addEventListener('click', () => {
+    if (deferredPrompt) {
+        installBtn.click();       // Trigger the install button
+    }
+});
 
     // TradingView widgets
     function renderTV(containerId, symbol) {
